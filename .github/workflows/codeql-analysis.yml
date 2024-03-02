@@ -80,7 +80,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Backend
 
     - name: Build
       run: dotnet build Backend -c Release --no-restore

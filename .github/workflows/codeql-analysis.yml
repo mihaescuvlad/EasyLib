@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp', 'javascript' ]
+        language: [ 'csharp' ]
         # CodeQL supports [ 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift' ]
         # Use only 'java-kotlin' to analyze code written in Java, Kotlin or both
         # Use only 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
@@ -80,13 +80,13 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Backend
+      run: dotnet restore Application
 
     - name: Build
-      run: dotnet build Backend -c Release --no-restore
+      run: dotnet build Application -c Release --no-restore
 
     - name: Test
-      run: dotnet test Backend --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test Application --no-restore --verbosity normal --collect:"XPlat Code Coverage"
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1

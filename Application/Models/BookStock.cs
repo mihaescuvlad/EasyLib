@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Application.Models;
 
+[PrimaryKey(nameof(BookIsbn), nameof(LibraryId))]
 public class BookStock
 {
     public required string BookIsbn { get; set; }

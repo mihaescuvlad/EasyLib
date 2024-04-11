@@ -1,8 +1,7 @@
-﻿namespace Application.Models
+﻿namespace Application.Models;
+
+public class Role
 {
-    public class Role
-    {
-        public Guid ID { get; set; }
-        public string? RoleName { get; set; }
-    }
+    public required Guid Id { get; set; }
+    public required string RoleName { get; set; }
 }

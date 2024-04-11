@@ -1,13 +1,20 @@
-﻿namespace Application.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Models;
+
+public class User
 {
-    public class User
-    {
-        public Guid ID { get; set; } // Primary Key, Same as Login ID
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public Guid AddressID { get; set; } // Foreign Key referencing Address table
-        public string? PostalCode { get; set; }
-        public bool Blacklisted { get; set; }
-        public Guid RoleID { get; set; } // Foreign Key referencing Role table
-    }
+    public Guid Id { get; set; }
+
+    public required string FirstName { get; set; }
+
+    public required string LastName { get; set; }
+
+    public Guid AddressId { get; set; }
+
+    public required string PostalCode { get; set; }
+
+    public bool Blacklisted { get; set; }
+
+    public Guid RoleId { get; set; }
 }

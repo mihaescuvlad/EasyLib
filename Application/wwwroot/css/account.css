@@ -42,9 +42,16 @@
     align-content: center;
 }
 
-.form-group {
+.form-center {
     padding: 0.6rem;
-    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    padding-top: 0.6rem;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -58,14 +65,33 @@
 
 #login {
     background-color: #ffc800;
-    width: 40%;
+    width: 50%;
 }
 
 #register {
     background-color: #ffc800;
-    width: 40%;
+    width: 50%;
+}
+
+.login-card-footer-text{
+    text-align: center;
 }
 
 .login-card-footer-nav {
+    text-align: center;
     color: black;
+}
+
+.button-center {
+    padding-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#register:hover {
+    background-color: #dbab00;
+}
+#login:hover {
+    background-color: #dbab00;
 }

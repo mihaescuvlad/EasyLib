@@ -18,21 +18,26 @@
     <!-- Auth theme CSS-->
     <link href="~/css/account.css" rel="stylesheet" />
 </head>
-<body id="page-top" class="d-flex flex-column justify-content-center align-items-center min-vh-100">
-<div class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-    <div class="container">
-        <div class="card login-card">
+<body id="page-top" class="auth-body d-flex flex-column justify-content-center align-items-center min-vh-100">
+<main class="d-flex align-items-center min-vh-100 py-3 py-md-0 col-12">
+    <div class="container col-7">
+        <div class="card auth-card">
             <div class="row g-0">
-                <div class="col-md-5">
-                    <img class="login-card-img" src="~/assets/img/team/3.jpg" alt="auth"/>
+                <div class="col-md-5 overflow-hidden">
+                    <img class="auth-card-img" src="~/assets/img/team/3.jpg" alt="auth" />
                 </div>
                 <div class="col-md-7">
-                    @RenderBody()
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img class="logo" src="~/assets/img/navbar-logo.svg" alt="EasyLib"/>
+                        </div>
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 </body>
 </html>
 

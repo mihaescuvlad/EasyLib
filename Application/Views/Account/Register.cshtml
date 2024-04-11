@@ -6,30 +6,46 @@
 <p class="auth-card-description">Create an Account</p>
 <div class="form-center">	
 	<form action="#!">
-		<div class="form-group">
-			<input class="form-control" id="username" type="username" placeholder="Your Email *" data-sb-validations="required,username" />
-			<div class="invalid-feedback" data-sb-feedback="username:required">An email is required.</div>
-			<div class="invalid-feedback" data-sb-feedback="username:username">Username is not valid.</div>
+		<div class="d-flex row">
+			<div class="d-flex column">
+				<div class="form-group">
+					<input class="form-control" id="first name" type="text" placeholder="First Name *" data-sb-validations="required" />
+					<div class="invalid-feedback" data-sb-feedback="username:required">A First Name is required.</div>
+				</div>
+				<div class="form-group">
+					<input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
+					<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+				</div>
+			</div>
+			<div class="d-flex column">
+				<div class="form-group">
+					<input class="form-control" id="last name" type="text" placeholder="Last Name *" data-sb-validations="required" />
+					<div class="invalid-feedback" data-sb-feedback="name:required">A Last Name is required.</div>
+				</div>
+				<div class="form-group">
+					<input class="form-control" id="postal code" type="text" placeholder="Postal Code *" data-sb-validations="required" />
+					<div class="invalid-feedback" data-sb-feedback="postal:required">Your Postal Code is required.</div>
+				</div>
+			</div>
 		</div>
-		<div class="form-group">
-			<input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
-			<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-			<div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+		<div class="d-flex column">
+			<div class="form-group">
+				<input class="form-control" id="password" type="password" placeholder="Your Password *" data-sb-validations="required" />
+			</div>
+			<div class="form-group">
+				<input class="form-control" id="confirm password" type="password" placeholder="Repeat Password *" data-sb-validations="required" />
+			</div>
 		</div>
-		<div class="form-group">
-			<input class="form-control" id="password" type="password" placeholder="Your Password *" data-sb-validations="required" />
-		</div>
-		<div class="form-group">
-			<input class="form-control" id="confirm password" type="password" placeholder="Repeat Password *" data-sb-validations="required" />
-		</div>
-		<div class="form-group">
-			<input class="form-control" id="address" type="street-address" placeholder="Address Line *" data-sb-validations="required" />
-		</div>
-		<div class="form-group">
-			<input class="form-control" id="optioanal address" type="street-address" placeholder="Address Line 2(Optional)" data-sb-validations="" />
+		<div class="d-flex row">
+			<div class="form-group">
+				<input class="form-control" id="address" type="street-address" placeholder="Address Line *" data-sb-validations="required" />
+			</div>
+			<div class="form-group mb-4">
+				<input class="form-control" id="optioanal address" type="street-address" placeholder="Address Line 2(Optional)" data-sb-validations="" />
+			</div>
 		</div>
 		<div class="button-center">
-			<input name="register" id="register" class="btn btn-block register-btn mb-auto" type="button" value="Register">
+			<input name="register" id="register" class="btn btn-block register-btn mb-4" type="button" value="Register">
 		</div>
 	</form>
 </div>

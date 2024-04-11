@@ -50,6 +50,7 @@
 }
 
 .form-group {
+    margin: 0.3rem;
     padding-top: 0.6rem;
     width: 100%;
     box-sizing: border-box;
@@ -83,7 +84,7 @@
 }
 
 .button-center {
-    padding-top: 0.6rem;
+    padding-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;

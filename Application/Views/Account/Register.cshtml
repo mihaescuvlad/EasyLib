@@ -1,0 +1,36 @@
+﻿@{
+	ViewData["Title"] = "Login";
+	Layout = "_AuthLayout";
+}
+
+<p class="auth-card-description">Create an Account</p>
+<form action="#!">
+	<div class="form-group">
+		<input class="form-control" id="username" type="username" placeholder="Your Email *" data-sb-validations="required,username" />
+		<div class="invalid-feedback" data-sb-feedback="username:required">An email is required.</div>
+		<div class="invalid-feedback" data-sb-feedback="username:username">Username is not valid.</div>
+	</div>
+	<div class="form-group">
+		<input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
+		<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+		<div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+	</div>
+	<div class="form-group">
+		<input class="form-control" id="password" type="password" placeholder="Your Password *" data-sb-validations="required" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" id="confirm password" type="password" placeholder="Repeat Password *" data-sb-validations="required" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" id="address" type="street-address" placeholder="Your Address *" data-sb-validations="required" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" id="optioanal address" type="street-address" placeholder="Secondary Address" data-sb-validations="" />
+	</div>
+	<input name="register" id="register" class="btn btn-block register-btn mb-auto" type="button" value="Register">
+</form>
+<p class="login-card-footer-text">Already have an account? <a href="~/Account/Login" class="text-reset">Login here</a></p>
+<nav class="login-card-footer-nav">
+	<a href="#!">Terms of use.</a>
+	<a href="#!">Privacy policy</a>
+</nav>

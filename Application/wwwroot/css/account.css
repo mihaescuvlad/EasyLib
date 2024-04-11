@@ -50,13 +50,13 @@
 }
 
 .form-group {
-    margin: 0.3rem;
+    margin-right: 0.3rem;
     padding-top: 0.6rem;
     width: 100%;
     box-sizing: border-box;
 }
 
-.form-control{
+.form-control {
     height: 3rem;
 }
 

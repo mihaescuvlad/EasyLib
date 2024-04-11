@@ -1,10 +1,9 @@
-﻿namespace Application.Models
+﻿namespace Application.Models;
+
+public class LibraryLocation
 {
-    public class LibraryLocation
-    {
-        public Guid Id { get; set; }
-        public Guid AddressId { get; set; }
-        public TimeSpan OpenTime { get; set; }
-        public TimeSpan CloseTime { get; set; }
-    }
+    public Guid Id { get; set; }
+    public required Guid AddressId { get; set; }
+    public required DateTime OpenTime { get; set; }
+    public required DateTime CloseTime { get; set; }
 }

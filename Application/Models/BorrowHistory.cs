@@ -1,9 +1,8 @@
-﻿namespace Application.Models
+﻿namespace Application.Models;
+
+public class BorrowHistory
 {
-    public class BorrowHistory
-    {
-        public Guid UserId { get; set; }
-        public int BookIsbn { get; set; }
-        public TimeSpan BorrowDate { get; set; }
-    }
+    public required Guid UserId { get; set; }
+    public required string BookIsbn { get; set; }
+    public required DateTime BorrowDate { get; set; }
 }

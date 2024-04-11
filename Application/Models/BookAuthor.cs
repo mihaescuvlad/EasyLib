@@ -1,8 +1,7 @@
-﻿namespace Application.Models
+﻿namespace Application.Models;
+
+public class BookAuthor
 {
-    public class BookAuthor
-    {
-        public int BookIsbn { get; set; }
-        public Guid AuthorId { get; set; }
-    }
+    public required string BookIsbn { get; set; }
+    public required Guid AuthorId { get; set; }
 }

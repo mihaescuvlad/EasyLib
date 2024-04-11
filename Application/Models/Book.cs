@@ -1,10 +1,12 @@
-﻿namespace Application.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Models;
+
+public class Book
 {
-    public class Book
-    {
-        public int Isbn { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-        public byte[]? CoverPicture { get; set; }
-    }
+    [RegularExpression(@"^\d{10,13}$", ErrorMessage = "Invalid ISBN format")]
+    public required string Isbn { get; set; }
+    public required string Title { get; set; }
+    public required string Description { get; set; }
+    public byte[]? CoverPicture { get; set; }
 }

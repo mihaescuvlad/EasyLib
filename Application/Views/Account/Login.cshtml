@@ -1,0 +1,26 @@
+﻿@{
+	ViewData["Title"] = "Login";
+	Layout = "_AuthLayout";
+}
+
+<p class="auth-card-description">Log into your account</p>
+<div class="form-center">
+	<form action="#!">
+		<div class="form-group">
+			<input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
+			<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+			<div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+		</div>
+		<div class="form-group mb-4">
+			<input class="form-control" id="password" type="password" placeholder="Your Password *" data-sb-validations="required" />
+		</div>
+		<div class="button-center">
+            <input name="login" id="login" class="btn btn-block login-btn mb-4 text-white" type="button" value="Login">
+		</div>
+	</form>
+</div>
+<p class="login-card-footer-text">Don't have an account? <a href="Register" class="text-reset">Register here</a></p>
+<nav class="login-card-footer-nav">
+    <a href="#!">Terms of use.</a>
+    <a href="#!">Privacy policy</a>
+</nav>

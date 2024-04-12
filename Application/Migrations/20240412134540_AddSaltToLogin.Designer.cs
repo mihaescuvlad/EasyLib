@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20240411200311_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240412134540_AddSaltToLogin")]
+    partial class AddSaltToLogin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,11 @@ namespace Application.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address_1")
+                    b.Property<string>("Address1")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Address_2")
+                    b.Property<string>("Address2")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -155,6 +155,10 @@ namespace Application.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

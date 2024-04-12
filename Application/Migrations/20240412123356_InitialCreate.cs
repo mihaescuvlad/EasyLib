@@ -16,8 +16,8 @@ namespace Application.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Address_1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_2 = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

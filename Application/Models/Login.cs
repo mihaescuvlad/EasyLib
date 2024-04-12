@@ -11,4 +11,6 @@ public class Login
 
     [Required(ErrorMessage = "Password is required")]
     public required string Password { get; set; }
+
+    public required string Salt { get; set; }
 }

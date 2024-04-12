@@ -38,7 +38,7 @@
     margin-bottom: 23px;
 }
 
-.form{
+.form {
     align-content: center;
 }
 
@@ -50,8 +50,9 @@
 }
 
 .form-group {
-    margin-right: 0.3rem;
+    margin-right: 1rem;
     padding-top: 0.6rem;
+    padding-right: 0.5rem;
     width: 100%;
     box-sizing: border-box;
 }

@@ -79,4 +79,29 @@ public class AccountController : Controller
         var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
         return BadRequest(new { success = false, message = "Validation failed", errors });
     }
+
+    [HttpPost]
+    public IActionResult Login(LoginPoco loginPoco)
+    {
+        if (ModelState.IsValid)
+        {
+            var existingUser = _context.Logins.SingleOrDefault(u => u.Email == loginPoco.Email);
+
+            if (existingUser != null)
+            {
+                if (PasswordHasher.VerifyPassword(loginPoco.Password, existingUser.Password, existingUser.Salt))
+                {
+                    HttpContext.Session.SetString("UserId", existingUser.Id.ToString());
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            ModelState.AddModelError(string.Empty, "Wrong email or password.");
+            return BadRequest(new { success = false, message = "Wrong email or password." });
+        }
+
+        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+        return BadRequest(new { success = false, message = "Validation failed", errors });
+    }
 }

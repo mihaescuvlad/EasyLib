@@ -1,37 +1,44 @@
-﻿using Application.Data;
+﻿using System.Text;
+using System.Text.Encodings.Web;
+
+using Application.Data;
 using Application.Helpers;
 using Application.Models;
 using Application.Pocos;
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly LibraryContext _context;
 
-    public AccountController(LibraryContext context)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LibraryContext context)
     {
+        _userManager = userManager;
+        _signInManager = signInManager;
         _context = context;
-    }
-
-    public IActionResult Login()
-    {
-        return View("Login");
     }
 
     public IActionResult Register()
     {
-        return View("Register");
+        return View();
     }
 
     [HttpPost]
-    public IActionResult Register(RegisterPoco registerPoco)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterPoco registerPoco)
     {
         if (ModelState.IsValid)
         {
-            var existingUser = _context.Logins.SingleOrDefault(u => u.Email == registerPoco.Email);
+            var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Email == registerPoco.Email);
             if (existingUser != null)
             {
                 ModelState.AddModelError(string.Empty, "User with this email already exists.");
@@ -45,63 +52,59 @@ public class AccountController : Controller
                 Address2 = registerPoco.Address2,
             };
 
-            registerPoco.Password = PasswordHasher.HashPassword(registerPoco.Password, out string salt);
-
-            Guid userId = Guid.NewGuid();
-            Login login = new()
+            // registerPoco.Password = PasswordHasher.HashPassword(registerPoco.Password, out string salt);
+            ApplicationUser user = new()
             {
-                Id = userId,
-                Email = registerPoco.Email,
-                Password = registerPoco.Password,
-                Salt = salt,
-            };
-
-            Guid roleId = new("6A5E8047-BC28-435E-9A09-92AB3D47BBB0");
-            User user = new()
-            {
-                Id = userId,
                 FirstName = registerPoco.FirstName,
                 LastName = registerPoco.LastName,
-                AddressId = address.Id,
+                UserName = registerPoco.Email,
+                Email = registerPoco.Email,
                 PostalCode = registerPoco.PostalCode,
-                Blacklisted = false,
-                RoleId = roleId,
+                AddressId = address.Id,
             };
 
-            _context.Addresses.Add(address);
-            _context.Logins.Add(login);
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            var result = await _userManager.CreateAsync(user, registerPoco.Password);
 
-            return RedirectToAction("Login", "Account");
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "standard");
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
 
-        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-        return BadRequest(new { success = false, message = "Validation failed", errors });
+        return View(registerPoco);
+    }
+
+    public IActionResult Login()
+    {
+        return View();
     }
 
     [HttpPost]
-    public IActionResult Login(LoginPoco loginPoco)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginPoco loginPoco)
     {
         if (ModelState.IsValid)
         {
-            var existingUser = _context.Logins.SingleOrDefault(u => u.Email == loginPoco.Email);
-
-            if (existingUser != null)
+            var result = await _signInManager.PasswordSignInAsync(loginPoco.Email, loginPoco.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
             {
-                if (PasswordHasher.VerifyPassword(loginPoco.Password, existingUser.Password, existingUser.Salt))
-                {
-                    HttpContext.Session.SetString("UserId", existingUser.Id.ToString());
-
-                    return RedirectToAction("Index", "Home");
-                }
+                return RedirectToAction("Index", "Home");
             }
-
-            ModelState.AddModelError(string.Empty, "Wrong email or password.");
-            return BadRequest(new { success = false, message = "Wrong email or password." });
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(loginPoco);
+            }
         }
 
-        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-        return BadRequest(new { success = false, message = "Validation failed", errors });
+        return View(loginPoco);
     }
 }

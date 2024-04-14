@@ -1,15 +1,9 @@
-﻿using System.Text;
-using System.Text.Encodings.Web;
-
-using Application.Data;
-using Application.Helpers;
+﻿using Application.Data;
 using Application.Models;
 using Application.Pocos;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Controllers;

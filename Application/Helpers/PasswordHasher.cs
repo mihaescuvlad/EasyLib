@@ -6,7 +6,6 @@ namespace Application.Helpers;
 public class PasswordHasher
 {
     private const int SaltSize = 128 / 8;
-    private const int KeySize = 256 / 8;
 
     public static string HashPassword(string password, out string salt)
     {

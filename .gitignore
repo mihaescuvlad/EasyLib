@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 # Development configs
 Application/appsettings.Development.json
+Prototypes/venv

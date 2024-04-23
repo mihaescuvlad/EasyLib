@@ -11,28 +11,26 @@ window.addEventListener('DOMContentLoaded', event => {
         if (!navbarCollapsible) {
             return;
         }
-        if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
-            navbarCollapsible.classList.add('navbar-shrink')
-        }
-
+        navbarCollapsible.classList.add('navbar-shrink');
     };
 
-    // Shrink the navbar 
-    navbarShrink();
-
-    // Shrink the navbar when page is scrolled
-    document.addEventListener('scroll', navbarShrink);
-
-    //  Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
-        new bootstrap.ScrollSpy(document.body, {
-            target: '#mainNav',
-            rootMargin: '0px 0px -40%',
+    // Check if the user is logged in
+    const isAuthenticated = document.body.dataset.isAuthenticated === 'true';
+    if (isAuthenticated) {
+        // Always apply navbar shrink if the user is logged in
+        navbarShrink();
+    } else {
+        // Shrink the navbar when page is scrolled for non-logged-in users
+        document.addEventListener('scroll', () => {
+            if (window.scrollY === 0) {
+                // Remove navbar shrink if scrolled to top
+                document.body.querySelector('#mainNav').classList.remove('navbar-shrink');
+            } else {
+                // Apply navbar shrink if scrolled down
+                navbarShrink();
+            }
         });
-    };
+    }
 
     // Collapse responsive navbar when toggler is visible
     const navbarToggler = document.body.querySelector('.navbar-toggler');

@@ -1,5 +1,9 @@
 using Application.Data;
 using Application.Models;
+using Application.Repositories;
+using Application.Repositories.Interfaces;
+using Application.Services;
+using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +11,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
 builder.Services.AddDbContext<LibraryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_CONNECTION_STRING")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

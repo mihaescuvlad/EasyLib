@@ -1,0 +1,78 @@
+﻿@using Application.Pocos
+@model List<Application.Pocos.BookPoco>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="page-section bg-light" id="books">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase my-3">our book selection</h2>
+        </div>
+        <div class="row justify-content-center mb-5 py-3">
+            <div class="col-lg-6">
+                <h5 class="text-center">Can't find what you are looking for?</h5>
+                <form action="#" method="GET" class="form-inline d-flex flex-row py-3">
+                    <input type="text" name="search" placeholder="Search by title or author" class="form-control mr-sm-2 py-3">
+                    <button type="submit" class="btn btn-primary btn-xl d-flex flex-row px-3">
+                        <i class="fas fa-magnifying-glass fa-xl px-2"></i>
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+
+            @foreach (var book in Model)
+            {
+                <div class="col-lg-4 col-sm-6 mb-4">
+                    <div class="books-item">
+                        <a class="books-link" href="/books/@book.Isbn">
+                            <div class="books-hover">
+                                <div class="books-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(book.Thumbnail))
+                            {
+                                <img class="img-fluid books-img" src="@book.Thumbnail" alt="Book Image" />
+                            }
+                            else
+                            {
+                                <img class="img-fluid books-img" src="~/assets/img/books/no-src.jpg" alt="No Image Available" />
+                            }
+                        </a>
+                        <div class="books-caption">
+                            <div class="books-caption-heading">@book.Title</div>
+                            <div class="books-caption-subheading text-muted">@string.Join(", ", book.Authors)</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="d-flex mt-3">
+            <div class="col-md">
+                @if (ViewBag.HasPreviousPage)
+                {
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber - 1)">
+                        <i class="fas fa-caret-left fa-xl"></i>
+                        Previous Page
+                    </a>
+                }
+            </div>
+            <div class="bg-primary btn-xl text-uppercase text-white rounded px-3">
+                Page @(ViewBag.PageNumber)
+            </div>
+            <div class ="col-md d-flex justify-content-end">
+                @if (ViewBag.HasNextPage)
+                {
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber + 1)">
+                        Next Page
+                        <i class="fas fa-caret-right fa-xl"></i>
+                    </a>
+                    
+                }
+            </div>
+        </div>
+    </div>
+</section>

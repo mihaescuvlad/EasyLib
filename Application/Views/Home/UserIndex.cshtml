@@ -21,6 +21,18 @@
                     </button>
                 </form>
             </div>
+            @if (ViewBag.SearchQuery != null)
+            {
+                <div class="d-flex flex-row align-items-center pt-3">
+                    <h4 class="text-center px-4 col-2 m-0">Results for: </h4>
+                    <div class="col-10">
+                        <a class="btn btn-secondary btn-sm text-uppercase" href="@Url.Action("Index", "Home")">
+                            @ViewBag.SearchQuery
+                            <i class="fa-solid fa-xmark fa-lg px-1"></i>
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
         <div class="row">
 
@@ -28,7 +40,7 @@
             {
                 <div class="col-lg-4 col-sm-6 mb-4">
                     <div class="books-item">
-                        <a class="books-link" href="/books/@book.Isbn">
+                        <a class="books-link" href="@Url.Action("Index", "Book", new { isbn = book.Isbn })">
                             <div class="books-hover">
                                 <div class="books-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
@@ -54,7 +66,7 @@
             <div class="col-md">
                 @if (ViewBag.HasPreviousPage)
                 {
-                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber - 1)">
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber - 1)@(ViewBag.SearchQuery != null ? "&search=" + ViewBag.SearchQuery : "")">
                         <i class="fas fa-caret-left fa-xl"></i>
                         Previous Page
                     </a>
@@ -66,13 +78,13 @@
             <div class ="col-md d-flex justify-content-end">
                 @if (ViewBag.HasNextPage)
                 {
-                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber + 1)">
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber + 1)@(ViewBag.SearchQuery != null ? "&search=" + ViewBag.SearchQuery : "")">
                         Next Page
                         <i class="fas fa-caret-right fa-xl"></i>
                     </a>
-                    
                 }
             </div>
+
         </div>
     </div>
 </section>

@@ -3,17 +3,44 @@
     Layout = "_Layout";
 }
 @model Application.Pocos.UserPoco
-<h1>W.I.P</h1>
 
-<div>
-    First Name: @Model.FirstName
-</div>
-<div>
-    Last Name: @Model.LastName
-</div>
-<div>
-    Email: @Model.Email
-</div>
-<div>
-    Address1: @Model.Address1
-</div>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+
+                        <!-- User Name -->
+                        <h4 class="card-title">@Model.FirstName @Model.LastName</h4>
+
+                        <!-- User Details -->
+                        <p class="card-text">
+                            <strong>Address:</strong> @Model.Address1<br>
+                            <strong>Address:</strong> @Model.Address2<br>
+                            <strong>Postal Code:</strong> @Model.PostalCode<br>
+                            <strong>Email:</strong> @Model.Email<br>
+                            @if (@Model.Blacklisted)
+                            {
+                                <strong>You were forbidden from borrowing books!</strong>
+                            }
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="/profile/edit/@Model.Id" class="btn btn-primary mx-2">Edit Profile</a>
+                            <a href="/profile/history/@Model.Id" class="btn btn-secondary mx-2">View History</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

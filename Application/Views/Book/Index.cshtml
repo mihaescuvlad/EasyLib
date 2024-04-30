@@ -1,0 +1,57 @@
+﻿@model Application.Pocos.BookPoco
+
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<section class="book-page bg-light" id="book">
+    <div class="d-flex flex-column align-items-center mb-5">
+        <h2>@Model.Title</h2>
+        <p>@string.Join(", ", Model.Authors)</p>
+    </div>
+
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column align-items-center col-7">
+            <div class="d-flex flex-row col-8">
+                @if (!string.IsNullOrEmpty(@Model.Thumbnail))
+                {
+                    <img class="img-fluid books-img" src="@Model.Thumbnail" alt="Book Image"/>
+                }
+                else
+                {
+                    <img class="img-fluid books-img" src="~/assets/img/books/no-src.jpg" alt="No Image Available"/>
+                }
+                <div class="d-flex flex-column px-4">
+                    <p><b>Title:</b> @Model.Title</p>
+                    <p><b>Isbn:</b> @Model.Isbn</p>
+                    <p><b>Author(s):</b> @string.Join(", ", Model.Authors)</p>
+                </div>
+
+            </div>
+            <div class="d-flex flex-column col-8 py-3">
+                <h3>Description</h3>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center col-5 pb-5 mb-5">
+            <h4 class="pt-5 mt-5 pb-3">Disclaimer</h4>
+            <div class="col-6 mb-5">
+                <p>By borrowing books from our library, you agree to the following terms and conditions:</p>
+                <ul>
+                    <li><b>Responsibility for Returned Books:</b> Borrowers are responsible for returning borrowed books by the due date specified at the time of borrowing.</li>
+                    <li><b>Consequences of Late Returns:</b> Failure to return borrowed books by the due date may result in fines or penalties.</li>
+                    <li><b>Blacklisting Policy:</b> Persistent failure to return borrowed books or ignoring fines may result in being blacklisted from borrowing books from the library in the future.</li>
+                    <li><b>Loss or Damage:</b> Borrowers are responsible for any loss or damage to borrowed books while in their possession.</li>
+                </ul>
+                <p>Please be aware that non-compliance with these terms may result in loss of borrowing privileges and may incur additional penalties. We appreciate your cooperation in maintaining the integrity of our library's collection and services.</p>
+                <p>Thank you for your understanding and adherence to these guidelines.</p>
+            </div>
+            <a class="btn btn-primary btn-xl text-uppercase" href="">
+                Borrow
+                <i class="fas fa-cart-shopping fa-xl"></i>
+            </a>
+        </div>
+    </div>
+
+</section>

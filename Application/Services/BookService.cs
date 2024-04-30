@@ -32,13 +32,33 @@ public class BookService : IBookService
         return _repositoryWrapper.BookRepository.GetBookWithAuthorsByIsbn(isbn);
     }
 
-    public List<BookPoco> SearchBooks(string query, int pageNumber = 1, int pageSize = 5)
+    public List<BookPoco> SearchBooks(string query, int pageNumber = 1, int pageSize = 15)
     {
-        throw new NotImplementedException();
+        var itemsToSkip = (pageNumber - 1) * pageSize;
+
+        var bookPocos = _repositoryWrapper.BookRepository.GetBooksWithAuthors()
+            .Where(book =>
+                book.Title.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                book.Description.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                book.Authors.Any(author => author.Contains(query, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
+
+        var searchResults = bookPocos
+            .Skip(itemsToSkip)
+            .Take(pageSize)
+            .ToList();
+
+        return searchResults;
     }
 
     public int GetTotalSearchResultsCount(string query)
     {
-        throw new NotImplementedException();
+        var totalResultsCount = _repositoryWrapper.BookRepository.GetBooksWithAuthors()
+            .Count(book =>
+                book.Title.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                book.Description.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                book.Authors.Any(author => author.Contains(query, StringComparison.OrdinalIgnoreCase)));
+
+        return totalResultsCount;
     }
 }

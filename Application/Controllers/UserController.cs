@@ -1,11 +1,14 @@
 ﻿using Application.Models;
+using Application.Pocos;
 using Application.Services.Interfaces;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
+[Authorize]
 public class UserController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -16,7 +19,6 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    [HttpGet]
     public async Task<IActionResult> Profile()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -33,5 +35,24 @@ public class UserController : Controller
         }
 
         return View(userProfile);
+    }
+
+    public IActionResult EditProfile()
+    {
+        return View();
+    }
+
+    [Authorize(Roles = "librarian")]
+    [HttpGet("EditProfile")]
+    public IActionResult EditProfileById([FromQuery] Guid Id)
+    {
+        return View("EditProfile");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult UpdateProfile(UserPoco newProfileData)
+    {
+        return RedirectToAction("Index", "Home");
     }
 }

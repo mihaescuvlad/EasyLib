@@ -4,32 +4,52 @@
 }
 @model Application.Pocos.UserPoco
 
-<body>
+<section class="page-section bg-light">
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body text-center">
+        <div class="row justify-content-center mb-5 py-3">
+            <div class="col-md-8">
+                <div class="card p-3">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
 
                         <!-- User Name -->
-                        <h4 class="card-title">@Model.FirstName @Model.LastName</h4>
-
+                        <h4 class="card-title pb-3">My Profile</h4>
+                        <div class="d-flex flex-column text-start col-9 align-self-center">
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">First Name:</p>
+                                <p>@Model.FirstName</p>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">Last Name:</p>
+                                <p>@Model.LastName</p>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">Address Line 1:</p>
+                                <p>@Model.Address1</p>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">Address Line 2:</p>
+                                <p>@Model.Address2</p>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">Postal Code:</p>
+                                <p>@Model.PostalCode</p>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="fw-semibold col-3">Email:</p>
+                                <p>@Model.Email</p>
+                            </div>
+                        </div>
+                        
                         <!-- User Details -->
-                        <p class="card-text">
-                            <strong>Address:</strong> @Model.Address1<br>
-                            <strong>Address:</strong> @Model.Address2<br>
-                            <strong>Postal Code:</strong> @Model.PostalCode<br>
-                            <strong>Email:</strong> @Model.Email<br>
-                            @if (@Model.Blacklisted)
-                            {
-                                <strong>You were forbidden from borrowing books!</strong>
-                            }
-                        </p>
+                        @if (@Model.Blacklisted)
+                        {
+                            <p class="fw-semibold text-danger py-2">You were forbidden from borrowing books!</p>
+                        }
 
                         <!-- Action Buttons -->
                         <div class="d-flex justify-content-center mt-3">
-                            <a href="/profile/edit/@Model.Id" class="btn btn-primary mx-2">Edit Profile</a>
-                            <a href="/profile/history/@Model.Id" class="btn btn-secondary mx-2">View History</a>
+                            <a href="@Url.Action("EditProfile", "User")" class="btn btn-primary btn-lg mx-2">Edit Profile</a>
+                            <a href="/profile/history/@Model.Id" class="btn btn-secondary btn-lg mx-2">View History</a>
                         </div>
                     </div>
                 </div>
@@ -41,6 +61,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+</section>
 
-</html>

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Application.Models;
 using Application.Services.Interfaces;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
@@ -17,36 +16,43 @@ public class HomeController : Controller
         _bookService = bookService;
     }
 
-    public IActionResult Index([FromQuery] int page = 1)
+    public IActionResult Index([FromQuery] int page = 1, [FromQuery] string search = "")
     {
         const int pageSize = 15;
 
         if (User.Identity is { IsAuthenticated: true })
         {
-            var postPreviews = _bookService.GetBooksPreviewByPage(page, pageSize);
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var searchResults = _bookService.SearchBooks(search, page, pageSize);
 
-            ViewBag.PageNumber = page;
-            ViewBag.HasPreviousPage = page > 1;
-            ViewBag.HasNextPage = postPreviews.Count >= pageSize;
+                var totalResultsCount = _bookService.GetTotalSearchResultsCount(search);
+                var totalPages = (int)Math.Ceiling((double)totalResultsCount / pageSize);
+                var hasNextPage = page < totalPages;
+                var hasPreviousPage = page > 1;
 
-            return View("UserIndex", postPreviews);
+                ViewBag.SearchQuery = search;
+                ViewBag.PageNumber = page;
+                ViewBag.HasPreviousPage = hasPreviousPage;
+                ViewBag.HasNextPage = hasNextPage;
+
+                return View("UserIndex", searchResults);
+            }
+            else
+            {
+                var postPreviews = _bookService.GetBooksPreviewByPage(page, pageSize);
+
+                ViewBag.PageNumber = page;
+                ViewBag.HasPreviousPage = page > 1;
+                ViewBag.HasNextPage = postPreviews.Count >= pageSize;
+
+                return View("UserIndex", postPreviews);
+            }
         }
         else
         {
             return View();
         }
-    }
-
-    public IActionResult UserIndex([FromQuery] int page = 1)
-    {
-        const int pageSize = 15;
-        var bookPreviews = _bookService.GetBooksPreviewByPage(page, pageSize);
-
-        ViewBag.PageNumber = page;
-        ViewBag.HasPreviousPage = page > 1;
-        ViewBag.HasNextPage = bookPreviews.Count >= pageSize;
-
-        return View(bookPreviews);
     }
 
     public IActionResult Privacy()

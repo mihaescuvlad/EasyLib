@@ -17,4 +17,9 @@ public class UserService : IUserService
     {
         return _repositoryWrapper.UserRepository.GetUserById(Id);
     }
+
+    public void UpdateUser(UserPoco user)
+    {
+        _repositoryWrapper.UserRepository.UpdateUserById(user);
+    }
 }

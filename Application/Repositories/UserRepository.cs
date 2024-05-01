@@ -39,4 +39,33 @@ public class UserRepository : RepositoryBase<ApplicationUser>, IUserRepository
 
         return user;
     }
+
+    public void UpdateUserById(UserPoco userPoco)
+    {
+        var existingUser = _context.Users.FirstOrDefault(u => u.Id == userPoco.Id.ToString());
+
+        if (existingUser == null)
+        {
+            throw new InvalidOperationException("User not found");
+        }
+
+        existingUser.FirstName = userPoco.FirstName;
+        existingUser.LastName = userPoco.LastName;
+        existingUser.PostalCode = userPoco.PostalCode;
+        existingUser.Blacklisted = userPoco.Blacklisted;
+        existingUser.Email = userPoco.Email;
+
+        var userAddress = _context.Addresses.FirstOrDefault(a => a.Id == existingUser.AddressId);
+        if (userAddress == null)
+        {
+            throw new InvalidOperationException("Address not found");
+        }
+
+        userAddress.Address1 = userPoco.Address1;
+        userAddress.Address2 = userPoco.Address2;
+
+        _context.Addresses.Update(userAddress);
+        _context.Users.Update(existingUser);
+        _context.SaveChanges();
+    }
 }

@@ -37,22 +37,33 @@ public class UserController : Controller
         return View(userProfile);
     }
 
-    public IActionResult EditProfile()
+    public async Task<IActionResult> EditProfile()
     {
-        return View();
-    }
+        var user = await _userManager.GetUserAsync(User);
 
-    [Authorize(Roles = "librarian")]
-    [HttpGet("EditProfile")]
-    public IActionResult EditProfileById([FromQuery] Guid Id)
-    {
-        return View("EditProfile");
+        if (user == null)
+        {
+            return RedirectToAction("Profile", "User");
+        }
+
+        var userProfile = _userService.GetUser(Guid.Parse(user.Id));
+        if (userProfile == null)
+        {
+            return RedirectToAction("Profile", "User");
+        }
+
+        return View(userProfile);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult UpdateProfile(UserPoco newProfileData)
+    public IActionResult UpdateProfile(UserPoco userPoco)
     {
-        return RedirectToAction("Index", "Home");
+        if (ModelState.IsValid)
+        {
+            _userService.UpdateUser(userPoco);
+            return RedirectToAction("Profile", "User");
+        }
+
+        return View("EditProfile");
     }
 }

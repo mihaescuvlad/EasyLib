@@ -18,5 +18,10 @@ namespace Application.Services
         {
             _repositoryWrapper.AddressRepository.Create(address);
         }
+
+        public void UpdateAddress(Address address)
+        {
+            _repositoryWrapper.AddressRepository.Update(address);
+        }
     }
 }

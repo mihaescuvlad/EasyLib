@@ -6,4 +6,5 @@ namespace Application.Repositories.Interfaces;
 public interface IUserRepository : IRepositoryBase<ApplicationUser>
 {
     UserPoco? GetUserById(Guid Id);
+    void UpdateUserById(UserPoco userPoco);
 }

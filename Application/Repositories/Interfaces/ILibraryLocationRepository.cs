@@ -5,4 +5,5 @@ namespace Application.Repositories.Interfaces;
 
 public interface ILibraryLocationRepository : IRepositoryBase<LibraryLocation>
 {
+    public IEnumerable<LibraryLocationWithAddressPoco> GetLibraryLocationWithAddress(string isbn);
 }

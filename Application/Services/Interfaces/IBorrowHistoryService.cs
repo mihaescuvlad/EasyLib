@@ -5,5 +5,5 @@ namespace Application.Services.Interfaces;
 
 public interface IBorrowHistoryService
 {
-    void GetBorrowBook(BorrowHistoryPoco borrowHistory);
+    void BorrowBook(BorrowHistoryPoco borrowHistory);
 }

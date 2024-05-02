@@ -1,4 +1,5 @@
 ﻿using Application.Models;
+using Application.Pocos;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
 
@@ -13,8 +14,8 @@ public class LibraryLocationService : ILibraryLocationService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public List<LibraryLocation> GetLocationsByType(string locationType)
+    public List<LibraryLocationWithAddressPoco> GetLibraryLocationsWithAddress(string isbn)
     {
-        return _repositoryWrapper.LibraryLocationRepository.FindAll().ToList();
+        return _repositoryWrapper.LibraryLocationRepository.GetLibraryLocationWithAddress(isbn).ToList();
     }
 }

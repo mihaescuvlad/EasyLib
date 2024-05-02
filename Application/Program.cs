@@ -18,6 +18,7 @@ builder.Services.AddScoped<IBorrowHistoryRepository, BorrowHistoryRepository>();
 builder.Services.AddScoped<IBorrowHistoryService, BorrowHistoryService>();
 
 builder.Services.AddScoped<ILibraryLocationRepository, LibraryLocationRepository>();
+builder.Services.AddScoped<ILibraryLocationService, LibraryLocationService>();
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 

@@ -14,7 +14,7 @@ public class BorrowHistoryService : IBorrowHistoryService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public void GetBorrowBook(BorrowHistoryPoco borrowHistory)
+    public void BorrowBook(BorrowHistoryPoco borrowHistory)
     {
         _repositoryWrapper.BorrowHistoryRepository.BorrowBook(borrowHistory);
     }

@@ -19,19 +19,11 @@ public class BorrowHistoryRepository : RepositoryBase<BorrowHistory>, IBorrowHis
     public void BorrowBook(BorrowHistoryPoco borrowHistory)
     {
         var libraryLocation = LibraryContext.LibraryLocations
-            .Include(l => l.OpenTime)
-            .Include(l => l.CloseTime)
             .FirstOrDefault(l => l.Id == borrowHistory.LibraryId);
 
         if (libraryLocation == null)
         {
             throw new ArgumentException("Invalid Library Id");
-        }
-
-        var borrowTime = borrowHistory.BorrowDate.TimeOfDay;
-        if (borrowTime < libraryLocation.OpenTime.TimeOfDay || borrowTime > libraryLocation.CloseTime.TimeOfDay)
-        {
-            throw new InvalidOperationException("BorrowDate is not within library open hours");
         }
 
         var bookStock = LibraryContext.BookStocks

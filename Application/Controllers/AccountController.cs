@@ -1,6 +1,7 @@
 ﻿using Application.Data;
 using Application.Models;
 using Application.Pocos;
+using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +14,14 @@ public class AccountController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly LibraryContext _context;
+    private readonly IAddressService _addressService;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LibraryContext context)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LibraryContext context, IAddressService addressService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _context = context;
+        _addressService = addressService;
     }
 
     public IActionResult Register()
@@ -56,6 +59,8 @@ public class AccountController : Controller
                 PostalCode = registerPoco.PostalCode,
                 AddressId = address.Id,
             };
+
+            _addressService.CreateAddress(address);
 
             var result = await _userManager.CreateAsync(user, registerPoco.Password);
 

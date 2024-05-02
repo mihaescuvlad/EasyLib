@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Edit Profile";
+}
+@model Application.Pocos.UserPoco;
+
+<section class="page-section bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center mb-5 py-3">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h4 class="card-title pb-3">Edit Profile</h4>
+                        <div class="form-center">
+                        <div class="d-flex flex-column text-start align-self-center">
+                            <form id="editForm" method="POST" asp-controller="User" asp-action="UpdateProfile">
+                            <!-- Validation Summary -->
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <!-- Hidden ID Field -->
+                            <input type="hidden" asp-for="Id" value="@Model.Id" />
+                            <input type="hidden" asp-for="Email" value="@Model.Email" />
+                            <input type="hidden" asp-for="Blacklisted" value="@Model.Blacklisted"/>
+                           
+                            <!-- First Name Field -->
+                                <div class="form-floating d-flex flex-row mb-3">
+                                    <input id="first-name" class="form-control" asp-for="FirstName" value="@Model.FirstName" placeholder="First Name" />
+                                    <label for="first-name">First Name</label>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+
+                            <!-- Last Name Field -->
+                                <div class="form-floating d-flex flex-row mb-3">
+                                    <input if="last-name" class="form-control" asp-for="LastName" value="@Model.LastName" placeholder="Last Name" />
+                                    <label for="last-name">Last Name</label>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                           
+
+                            <!-- Postal Code Field -->
+                            <div class="form-floating d-flex flex-row mb-3">
+                                    <input id="postal-code" class="form-control" asp-for="PostalCode" value="@Model.PostalCode" placeholder="Postal Code" />
+                                    <label for="postal-code">Postal Code</label>
+                                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                            </div>
+
+                            <!-- Address 1 Field -->
+                            <div class="form-floating d-flex flex-row mb-3">
+                                    <input id="address1" class="form-control" asp-for="Address1" value="@Model.Address1" placeholder="Address Line 1" />
+                                    <label for="address1">Address Line 1</label>
+                                    <span asp-validation-for="Address1" class="text-danger"></span>
+                            </div>
+
+                            <!-- Address 2 Field -->
+                            <div class="form-floating d-flex flex-row mb-3">
+                                    <input id="address2" class="form-control" asp-for="Address2" value="@Model.Address2" placeholder="Address Line 2 (optional)" />
+                                    <label for="address2">Address Line 2 (optional)</label>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="form-floating d-flex flex-row mb-3">
+                                    <input if="email" class="form-control" value="@Model.Email" disabled placeholder="@Model.Email" />
+                                    <label for="email">Email address</label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-center mt-3">
+                                <input type="submit" value="Save" class="btn btn-primary btn-lg mx-2" />
+                            </div>
+                        </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

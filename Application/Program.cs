@@ -14,6 +14,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 
+builder.Services.AddScoped<IBorrowHistoryRepository, BorrowHistoryRepository>();
+builder.Services.AddScoped<ILibraryLocationRepository, LibraryLocationRepository>();
+
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 builder.Services.AddDbContext<LibraryContext>(options =>

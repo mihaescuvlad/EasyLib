@@ -8,7 +8,7 @@ namespace Application.Controllers;
 
 public class BorrowHistoryController : Controller
 {
-    private readonly IBorrowHistorySerivce _borrowHistoryService;
+    private readonly IBorrowHistoryService _borrowHistoryService;
     public BorrowHistoryController(IBorrowHistoryService borrowHistoryService)
     {
         _borrowHistoryService = borrowHistoryService;

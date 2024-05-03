@@ -9,7 +9,7 @@
         <h2>@Model.Title</h2>
         <p>@string.Join(", ", Model.Authors)</p>
     </div>
-
+	<div 
     <div class="d-flex flex-row">
         <div class="d-flex flex-column align-items-center col-7">
             <div class="d-flex flex-row col-8">
@@ -47,7 +47,7 @@
                 <p>Please be aware that non-compliance with these terms may result in loss of borrowing privileges and may incur additional penalties. We appreciate your cooperation in maintaining the integrity of our library's collection and services.</p>
                 <p>Thank you for your understanding and adherence to these guidelines.</p>
             </div>
-            <a class="btn btn-primary btn-xl text-uppercase" href="">
+			<a class="btn btn-primary btn-xl text-uppercase" href="@Url.Action("Index", "Borrow", new { isbn = ViewBag.Isbn })">
                 Borrow
                 <i class="fas fa-cart-shopping fa-xl"></i>
             </a>

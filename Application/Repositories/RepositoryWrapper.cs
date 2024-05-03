@@ -8,6 +8,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     private readonly LibraryContext _libraryContext;
     private IBookRepository? _bookRepository;
     private IAuthorRepository? _authorRepository;
+    private ILibraryLocationRepository? _libraryLocationRepository;
+    private IBorrowHistoryRepository? _borrowHistoryRepository;
     private IUserRepository? _userRepository;
     private IAddressRepository? _addressRepository;
 
@@ -24,6 +26,16 @@ public class RepositoryWrapper : IRepositoryWrapper
     public IAuthorRepository AuthorRepository
     {
         get { return _authorRepository ??= new AuthorRepository(_libraryContext); }
+    }
+
+    public ILibraryLocationRepository LibraryLocationRepository
+    {
+        get { return _libraryLocationRepository ??= new LibraryLocationRepository(_libraryContext); }
+    }
+
+    public IBorrowHistoryRepository BorrowHistoryRepository
+    {
+        get { return _borrowHistoryRepository ??= new BorrowHistoryRepository(_libraryContext); }
     }
 
     public IAddressRepository AddressRepository

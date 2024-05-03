@@ -1,4 +1,5 @@
-﻿using Application.Services.Interfaces;
+﻿using Application.Models;
+using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,8 @@ public class BookController : Controller
         {
             RedirectToAction("Index", "Home");
         }
+
+        ViewBag.Isbn = isbn;
 
         return View(book);
     }

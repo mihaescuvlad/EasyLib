@@ -17,6 +17,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+
+builder.Services.AddScoped<IBorrowHistoryRepository, BorrowHistoryRepository>();
+builder.Services.AddScoped<IBorrowHistoryService, BorrowHistoryService>();
+
+builder.Services.AddScoped<ILibraryLocationRepository, LibraryLocationRepository>();
+builder.Services.AddScoped<ILibraryLocationService, LibraryLocationService>();
+
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 builder.Services.AddDbContext<LibraryContext>(options =>

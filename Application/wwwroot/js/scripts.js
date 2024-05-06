@@ -3,6 +3,8 @@
 
 // Write your JavaScript code.
 
+// Autocomplete functionality for book authors
+
 window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function

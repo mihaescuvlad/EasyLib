@@ -61,4 +61,9 @@ public class BookService : IBookService
 
         return totalResultsCount;
     }
+
+    public EditBookPoco? GetEditBookBookData(string isbn)
+    {
+        return _repositoryWrapper.BookRepository.GetEditBookBookData(isbn);
+    }
 }

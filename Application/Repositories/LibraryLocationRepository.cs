@@ -3,8 +3,6 @@ using Application.Models;
 using Application.Pocos;
 using Application.Repositories.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace Application.Repositories;
 
 public class LibraryLocationRepository : RepositoryBase<LibraryLocation>, ILibraryLocationRepository

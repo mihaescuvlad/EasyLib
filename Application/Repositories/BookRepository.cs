@@ -67,4 +67,58 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
         return bookPoco;
     }
+
+    public EditBookPoco? GetEditBookBookData(string isbn)
+    {
+        var bookData = GetBookWithAuthorsByIsbn(isbn);
+        if (bookData == null)
+        {
+            return null;
+        }
+
+        var libraryStocks = LibraryContext.LibraryLocations
+            .Join(
+                LibraryContext.BookStocks.Where(bs => bs.BookIsbn == isbn),
+                location => location.Id,
+                bookStock => bookStock.LibraryId,
+                (location, bookStock) => new { Location = location, BookStock = bookStock })
+            .Join(
+                LibraryContext.Addresses,
+                combined => combined.Location.AddressId,
+                address => address.Id,
+                (combined, address) => new
+                {
+                    combined.Location,
+                    combined.BookStock,
+                    Address = address,
+                })
+            .Select(joinResult => new
+            {
+                LocationWithAddress = new LibraryLocationWithAddressPoco
+                {
+                    Id = joinResult.Location.Id,
+                    Address1 = joinResult.Address.Address1,
+                    Address2 = joinResult.Address.Address2,
+                    OpenTime = joinResult.Location.OpenTime,
+                    CloseTime = joinResult.Location.CloseTime,
+                },
+                BookStock = new BookStock
+                {
+                    BookIsbn = isbn,
+                    LibraryId = joinResult.Location.Id,
+                    Stock = joinResult.BookStock.Stock,
+                },
+            })
+            .ToList();
+
+        var libraryStocksMap = libraryStocks.ToDictionary(
+            result => result.LocationWithAddress,
+            result => result.BookStock.Stock);
+
+        return new EditBookPoco
+        {
+            BookData = bookData,
+            LibraryStocks = libraryStocksMap,
+        };
+    }
 }

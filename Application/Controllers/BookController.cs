@@ -47,11 +47,11 @@ public class BookController : Controller
         return View(editFormData);
     }
 
+    [HttpPost]
     [Authorize(Roles = "librarian")]
-    [HttpPut]
-    public IActionResult Edit(EditBookPoco editData)
+    public IActionResult Edit(SubmitEditBookPoco editData)
     {
-        return View();
+        return RedirectToAction("Index", "Home"); // Not implemented
     }
 
     [Authorize(Roles = "librarian")]

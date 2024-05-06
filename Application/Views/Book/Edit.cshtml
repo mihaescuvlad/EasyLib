@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card d-flex align-items-center justify-content-center col-12 p-4">
-                    <form id="editBookForm" method="PUT" asp-controller="Book" asp-action="Edit" class="d-flex flex-column align-items-center">
+                    <form id="editBookForm" method="POST" asp-controller="Book" asp-action="Edit" class="d-flex flex-column align-items-center">
                         <h1 class="mb-3">@ViewData["Title"]</h1>
                         <div class="row row-cols-1 row-cols-md-3 g-4 my-3 pb-3 px-3 mx-1 overflow-auto border rounded" style="max-height: 25rem;">
                             @foreach (var libraryLocation in Model.LibraryStocks.Keys)
@@ -23,8 +23,10 @@
                                             <div class="d-flex flex-row align-items-center">
                                                 <p class="card-text text-xl fw-bold pe-2 mb-0">Stock:</p>
                                                 <div class="form-floating col-10">
-                                                    <input id="libraryStock" class="form-control p-2" style="height: 2.5rem;" asp-for="LibraryStocks[libraryLocation]" type="number" min="0" value="@Model.LibraryStocks[libraryLocation].Stock" />
-                                                    <span asp-validation-for="LibraryStocks[libraryLocation]" class="text-danger"></span>
+                                                    <input id="libraryStock" class="form-control p-2" style="height: 2.5rem;" 
+                                                           name="LibraryStocks[@libraryLocation.Id]" type="number" min="0" 
+                                                           value="@Model.LibraryStocks[libraryLocation]" />
+                                                    <span name="LibraryStocks[@libraryLocation.Id]" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -41,7 +43,7 @@
                                             <span class="input-group-text">Upload</span>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="bookdata-thumbnail" asp-for="BookData.Thumbnail" placeholder="Thumbnail" value="BookData.Thumbnail" onchange="previewThumbnail(event)">
+                                            <input type="file" class="custom-file-input" id="bookdata-thumbnail" asp-for="BookData.Thumbnail" placeholder="Thumbnail" value="@Model.BookData.Thumbnail" onchange="previewThumbnail(event)">
                                             <label class="custom-file-label" for="bookdata-thumbnail">Choose file</label>
                                             <span asp-validation-for="BookData.Thumbnail" class="text-danger"></span>
                                         </div>
@@ -51,13 +53,13 @@
                                     <img id="thumbnail-img" class="img-fluid books-img" src="@(string.IsNullOrEmpty(Model.BookData.Thumbnail) ? "/assets/img/books/no-src.jpg" : Model.BookData.Thumbnail)" alt="Thumbnail Preview" />
                                     @if (!string.IsNullOrEmpty(Model.BookData.Thumbnail))
                                     {
-
                                         <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeThumbnail(event)"></button>
                                     }
                                 </div>
                             </div>
 
                             <div class="col-6">
+                                <input type="hidden" id="bookdata-isbn" class="form-control" asp-for="BookData.Isbn" placeholder="Isbn" value="@Model.BookData.Isbn" />
                                 <div class="form-floating mb-3">
                                     <input id="bookdata-title" class="form-control" asp-for="BookData.Title" placeholder="Title" value="@Model.BookData.Title"/>
                                     <label for="bookdata-title">Title</label>
@@ -71,11 +73,11 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" id="bookdata-authors" class="form-control" placeholder="Authors" autocomplete="off" list="authorOptions" oninput="toggleCheckIcon()">
-                                    <input type="hidden" id="initialAuthors" asp-for="BookData.Authors" value="@Html.Raw(Json.Serialize(Model.BookData.Authors))" />
+                                    <input type="hidden" id="currentAuthors" asp-for="BookData.Authors" value="@Html.Raw(Json.Serialize(Model.BookData.Authors))"/>
                                     <datalist id="authorOptions">
                                         @foreach (var author in ViewBag.AuthorNames)
                                         {
-                                            <option value="@author" />
+                                            <option value="@author"/>
                                         }
                                     </datalist>
                                     <label for="bookdata-authors">Authors</label>
@@ -104,14 +106,12 @@
 </section>
 
 <script>
-    var initialAuthors = JSON.parse(document.getElementById("initialAuthors").value);
-
     document.querySelector('form').addEventListener('reset', function(event) {
         
         document.getElementById('bookdata-authors').value = '';
         toggleCheckIcon();
         
-        initialAuthors = JSON.parse(document.getElementById("initialAuthors").value);
+        currentAuthors = JSON.parse(document.getElementById("currentAuthors").value);
         
         resetBadges();
         resetThumbnail();
@@ -175,13 +175,18 @@
 
     function removeAuthor(element) {
         var badgeSpan = element.parentNode;
-        var authorName = badgeSpan.textContent.trim();
+        var authorsList = document.getElementById("authors-list");
+        var currentAuthorsInput = document.getElementById("currentAuthors");
+        var currentAuthors = JSON.parse(currentAuthorsInput.value);
+        
+        var extractedAuthorName = badgeSpan.firstChild.textContent.trim();
 
         badgeSpan.remove();
-
-        initialAuthors = initialAuthors.filter(function (author) {
-            return author !== authorName;
+        currentAuthors = currentAuthors.filter(function (author) {
+            return author.trim() !== extractedAuthorName;
         });
+
+        currentAuthorsInput.value = JSON.stringify(currentAuthors);
     }
 
     function toggleCheckIcon() {
@@ -197,13 +202,16 @@
     function addAuthorBadge() {
         var input = document.getElementById("bookdata-authors");
         var authorName = input.value.trim();
-        if (authorName !== '' && !initialAuthors.includes(authorName)) {
-            var authorsList = document.getElementById("authors-list");
+        var authorsList = document.getElementById("authors-list");
+        var currentAuthorsInput = document.getElementById("currentAuthors");
+        var currentAuthors = JSON.parse(currentAuthorsInput.value);
+
+        if (authorName !== '' && !currentAuthors.includes(authorName)) {
             var newBadge = document.createElement('span');
             newBadge.className = 'badge badge-pill badge-primary fs-6 my-1 me-1';
             newBadge.textContent = authorName;
-            var closeButton = document.createElement('i');
 
+            var closeButton = document.createElement('i');
             closeButton.className = 'fas fa-times ms-1';
             closeButton.style.cursor = 'pointer';
             closeButton.setAttribute('onmouseover', "this.parentNode.style.backgroundColor = '#dc3545';");
@@ -214,28 +222,41 @@
             authorsList.appendChild(newBadge);
             input.value = '';
             toggleCheckIcon();
-            
-            initialAuthors.push(authorName);
+
+            currentAuthors.push(authorName);
+            currentAuthorsInput.value = JSON.stringify(currentAuthors);
         }
     }
 
     function resetBadges() {
         var authorsList = document.getElementById("authors-list");
+        var currentAuthorsInput = document.getElementById("currentAuthors");
+        var originalAuthors = @Html.Raw(Json.Serialize(Model.BookData.Authors));
+        var currentAuthors = [];
+
         authorsList.innerHTML = "";
-        var initialAuthors = JSON.parse(document.getElementById("initialAuthors").value);
-        initialAuthors.forEach(function (author) {
+
+        originalAuthors.forEach(function (author) {
             var newBadge = document.createElement('span');
             newBadge.className = 'badge badge-pill badge-primary fs-6 my-1 me-1';
             newBadge.textContent = author;
+
             var closeButton = document.createElement('i');
             closeButton.className = 'fas fa-times ms-1';
             closeButton.style.cursor = 'pointer';
             closeButton.setAttribute('onmouseover', "this.parentNode.style.backgroundColor = '#dc3545';");
             closeButton.setAttribute('onmouseout', "this.parentNode.style.backgroundColor = '';");
             closeButton.setAttribute('onclick', 'removeAuthor(this)');
+
             newBadge.appendChild(closeButton);
             authorsList.appendChild(newBadge);
+
+            currentAuthors.push(author);
         });
+
+        currentAuthorsInput.value = JSON.stringify(currentAuthors); // Update the hidden input to reflect the reset data
     }
+
+
 
 </script>

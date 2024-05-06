@@ -113,7 +113,7 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
         var libraryStocksMap = libraryStocks.ToDictionary(
             result => result.LocationWithAddress,
-            result => result.BookStock);
+            result => result.BookStock.Stock);
 
         return new EditBookPoco
         {

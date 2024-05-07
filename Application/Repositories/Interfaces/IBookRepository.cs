@@ -9,4 +9,6 @@ public interface IBookRepository : IRepositoryBase<Book>
     public BookPoco? GetBookWithAuthorsByIsbn(string isbn);
 
     public EditBookPoco? GetEditBookBookData(string isbn);
+    public EditBookPoco? GetAddBookBookData();
+    public void AddBook(SubmitEditBookPoco newBookData);
 }

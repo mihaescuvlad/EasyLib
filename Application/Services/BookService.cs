@@ -1,4 +1,5 @@
-﻿using Application.Pocos;
+﻿using Application.Models;
+using Application.Pocos;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
 
@@ -65,5 +66,20 @@ public class BookService : IBookService
     public EditBookPoco? GetEditBookBookData(string isbn)
     {
         return _repositoryWrapper.BookRepository.GetEditBookBookData(isbn);
+    }
+
+    public void AddBook(SubmitEditBookPoco? newBookData)
+    {
+        if (newBookData == null)
+        {
+            throw new ArgumentNullException(nameof(newBookData), "Input data cannot be null.");
+        }
+
+        _repositoryWrapper.BookRepository.AddBook(newBookData);
+    }
+
+    public EditBookPoco? GetAddBookBookData()
+    {
+        return _repositoryWrapper.BookRepository.GetAddBookBookData();
     }
 }

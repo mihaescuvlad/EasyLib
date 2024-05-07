@@ -14,4 +14,6 @@ public interface IBookService
     int GetTotalSearchResultsCount(string query);
 
     EditBookPoco? GetEditBookBookData(string isbn);
+    public void AddBook(SubmitEditBookPoco? newBookData);
+    EditBookPoco? GetAddBookBookData();
 }

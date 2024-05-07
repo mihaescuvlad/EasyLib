@@ -59,4 +59,31 @@ public class BookController : Controller
     {
         return View();
     }
+
+    [Authorize(Roles = "librarian")]
+    [HttpGet]
+    public IActionResult Add()
+    {
+        var addFormData = _bookService.GetAddBookBookData();
+
+        var authors = _authorService.GetAllAuthors();
+        var authorNames = authors.Select(author => author.AuthorName).ToList();
+
+        ViewBag.AuthorNames = authorNames;
+
+        return View(addFormData);
+    }
+
+    [Authorize(Roles = "librarian")]
+    [HttpPost]
+    public IActionResult Add(SubmitEditBookPoco newBookData)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(newBookData);
+        }
+
+        // _bookService.AddBook(newBookData);
+        return RedirectToAction("Index", "Book");
+    }
 }

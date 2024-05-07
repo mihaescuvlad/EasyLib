@@ -8,3 +8,4 @@ public class BookPoco
     public required string Description { get; set; }
     public string? Thumbnail { get; set; }
 }
+

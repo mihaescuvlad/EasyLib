@@ -4,6 +4,8 @@ using Application.Repositories;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
 
+using Newtonsoft.Json;
+
 namespace Application.Services;
 
 public class BookService : IBookService
@@ -81,5 +83,12 @@ public class BookService : IBookService
         {
             throw new Exception("Book not found");
         }
+    }
+    
+    public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
+    {
+        newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Authors list can't be empty.");
+
+        _repositoryWrapper.BookRepository.SubmitEditBookBookData(newBookData);
     }
 }

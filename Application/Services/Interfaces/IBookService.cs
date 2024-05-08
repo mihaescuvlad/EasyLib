@@ -14,5 +14,8 @@ public interface IBookService
     int GetTotalSearchResultsCount(string query);
 
     EditBookPoco? GetEditBookBookData(string isbn);
-    public void DeleteBook(string isbn);
+
+    void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
+    
+    void DeleteBook(string isbn);
 }

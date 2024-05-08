@@ -139,7 +139,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
             Isbn = newBookData.BookData.Isbn,
             Title = newBookData.BookData.Title,
             Description = newBookData.BookData.Description,
-            Thumbnail = newBookData.BookData.Thumbnail,
         };
 
         LibraryContext.Books.Add(newBook);

@@ -4,6 +4,9 @@ using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+using Newtonsoft.Json;
 
 namespace Application.Controllers;
 
@@ -51,7 +54,14 @@ public class BookController : Controller
     [Authorize(Roles = "librarian")]
     public IActionResult Edit(SubmitEditBookPoco editData)
     {
-        return RedirectToAction("Index", "Home"); // Not implemented
+        if (ModelState.IsValid)
+        {
+            _bookService.SubmitEditBookBookData(editData);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        return RedirectToAction("Index", "Home");
     }
 
     [Authorize(Roles = "librarian")]

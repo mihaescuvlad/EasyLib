@@ -84,7 +84,7 @@ public class BookService : IBookService
             throw new Exception("Book not found");
         }
     }
-    
+
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
     {
         newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Authors list can't be empty.");

@@ -16,6 +16,6 @@ public interface IBookService
     EditBookPoco? GetEditBookBookData(string isbn);
 
     void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
-    
+
     void DeleteBook(string isbn);
 }

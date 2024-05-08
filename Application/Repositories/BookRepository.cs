@@ -122,7 +122,7 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         };
     }
 
-	public void DeleteBook(string isbn)
+    public void DeleteBook(string isbn)
     {
         var bookToDelete = LibraryContext.Books
             .FirstOrDefault(b => b.Isbn == isbn);
@@ -136,16 +136,14 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         if (bookToDelete != null)
         {
             LibraryContext.Books.Remove(bookToDelete);
-
-            // LibraryContext.BookAuthors.Remove(bookToDelete);
             LibraryContext.SaveChanges();
         }
         else
         {
             throw new ArgumentException("Book not found", nameof(isbn));
         }
-	}
-	
+    }
+
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
     {
         UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);

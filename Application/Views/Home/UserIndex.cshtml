@@ -33,6 +33,16 @@
                     </div>
                 </div>
             }
+            @if (User.IsInRole("librarian"))
+            {
+                <div class="d-flex flex-column align-items-center ml-3">
+                    <!-- Add new button for adding a book -->
+                    <a class="btn btn-success btn-l text-uppercase px-2" href="@Url.Action("Add", "Book")">
+                        Add Book
+                        <i class="fas fa-plus fa-lg px-1"></i>
+                    </a>
+                </div>
+            }
         </div>
         <div class="row">
 

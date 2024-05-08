@@ -144,6 +144,69 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         }
     }
 
+    public EditBookPoco? GetAddBookBookData()
+    {
+        var libraryStocks = LibraryContext.LibraryLocations
+        .Join(
+            LibraryContext.Addresses,
+            location => location.AddressId,
+            address => address.Id,
+            (location, address) => new
+            {
+                Location = location,
+                Address = address,
+            })
+        .Select(joinResult => new
+        {
+            LocationWithAddress = new LibraryLocationWithAddressPoco
+            {
+                Id = joinResult.Location.Id,
+                Address1 = joinResult.Address.Address1,
+                Address2 = joinResult.Address.Address2,
+                OpenTime = joinResult.Location.OpenTime,
+                CloseTime = joinResult.Location.CloseTime,
+            },
+            Stock = 0,
+        })
+        .ToList();
+
+        var libraryStocksMap = libraryStocks.ToDictionary(
+            result => result.LocationWithAddress,
+            result => result.Stock);
+
+        return new EditBookPoco
+        {
+            BookData = new BookPoco
+            {
+                Isbn = string.Empty,
+                Title = string.Empty,
+                Authors = Array.Empty<string>(),
+                Description = string.Empty,
+            },
+            LibraryStocks = libraryStocksMap,
+        };
+    }
+
+    public void AddBook(SubmitEditBookPoco newBookData)
+    {
+        if (LibraryContext.Books.Any(b => b.Isbn == newBookData.BookData.Isbn))
+        {
+            throw new InvalidOperationException($"A book with ISBN {newBookData.BookData.Isbn} already exists.");
+        }
+
+        var newBook = new Book
+        {
+            Isbn = newBookData.BookData.Isbn,
+            Title = newBookData.BookData.Title,
+            Description = newBookData.BookData.Description,
+        };
+
+        LibraryContext.Books.Add(newBook);
+        UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);
+        UpdateBookStocks(newBookData.BookData.Isbn, newBookData.LibraryStocks);
+        LibraryContext.SaveChanges();
+    }
+
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
     {
         UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);

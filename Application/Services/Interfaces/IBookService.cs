@@ -18,4 +18,8 @@ public interface IBookService
     void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
 
     void DeleteBook(string isbn);
+
+    public void AddBook(SubmitEditBookPoco newBookData);
+
+    EditBookPoco? GetAddBookBookData();
 }

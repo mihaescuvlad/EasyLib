@@ -13,4 +13,8 @@ public interface IBookRepository : IRepositoryBase<Book>
     void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
 
     public void DeleteBook(string isbn);
+
+    public EditBookPoco? GetAddBookBookData();
+
+    public void AddBook(SubmitEditBookPoco newBookData);
 }

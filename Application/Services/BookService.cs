@@ -91,4 +91,16 @@ public class BookService : IBookService
 
         _repositoryWrapper.BookRepository.SubmitEditBookBookData(newBookData);
     }
+
+    public void AddBook(SubmitEditBookPoco newBookData)
+    {
+        newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Authors list can't be empty.");
+
+        _repositoryWrapper.BookRepository.AddBook(newBookData);
+    }
+
+    public EditBookPoco? GetAddBookBookData()
+    {
+        return _repositoryWrapper.BookRepository.GetAddBookBookData();
+    }
 }

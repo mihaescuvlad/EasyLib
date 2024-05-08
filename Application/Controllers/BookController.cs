@@ -96,4 +96,31 @@ public class BookController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+
+    [Authorize(Roles = "librarian")]
+    [HttpGet]
+    public IActionResult Add()
+    {
+        var addFormData = _bookService.GetAddBookBookData();
+
+        var authors = _authorService.GetAllAuthors();
+        var authorNames = authors.Select(author => author.AuthorName).ToList();
+
+        ViewBag.AuthorNames = authorNames;
+
+        return View(addFormData);
+    }
+
+    [Authorize(Roles = "librarian")]
+    [HttpPost]
+    public IActionResult Add(SubmitEditBookPoco newBookData)
+    {
+        if (ModelState.IsValid)
+        {
+            _bookService.AddBook(newBookData);
+            return RedirectToAction("Index", "Book", new { isbn = newBookData.BookData.Isbn });
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
 }

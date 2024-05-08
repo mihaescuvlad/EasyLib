@@ -189,11 +189,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
     public void AddBook(SubmitEditBookPoco newBookData)
     {
-        if (newBookData == null)
-        {
-            throw new ArgumentNullException(nameof(newBookData), "Input data cannot be null.");
-        }
-
         if (LibraryContext.Books.Any(b => b.Isbn == newBookData.BookData.Isbn))
         {
             throw new InvalidOperationException($"A book with ISBN {newBookData.BookData.Isbn} already exists.");

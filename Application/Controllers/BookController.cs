@@ -115,12 +115,12 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult Add(SubmitEditBookPoco newBookData)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(newBookData);
+            _bookService.AddBook(newBookData);
+            return RedirectToAction("Index", "Book", new { isbn = newBookData.BookData.Isbn });
         }
 
-        _bookService.AddBook(newBookData);
-        return RedirectToAction("Index", "Book", new { isbn = newBookData.BookData.Isbn });
+        return RedirectToAction("Index", "Home");
     }
 }

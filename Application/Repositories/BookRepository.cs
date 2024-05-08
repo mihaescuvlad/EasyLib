@@ -167,8 +167,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
                 LibraryContext.Set<BookStock>().Add(newBookStock);
             }
         }
-
-        LibraryContext.SaveChanges();
     }
 
     private void UpdateBookAuthors(string isbn, IEnumerable<string> authors)
@@ -194,7 +192,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
                 };
 
                 LibraryContext.Authors.Add(author);
-                LibraryContext.SaveChanges();
             }
 
             authorIds.Add(author.Id);
@@ -215,8 +212,6 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
             }
         }
 
-        LibraryContext.SaveChanges();
-
         authorIds = authorIds.Except(existingBookAuthors.Select(ba => ba.AuthorId)).ToList();
 
         foreach (var authorId in authorIds)
@@ -229,7 +224,5 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
             LibraryContext.BookAuthors.Add(bookAuthor);
         }
-
-        LibraryContext.SaveChanges();
     }
 }

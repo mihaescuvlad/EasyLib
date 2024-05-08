@@ -122,6 +122,28 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         };
     }
 
+    public void DeleteBook(string isbn)
+    {
+        var bookToDelete = LibraryContext.Books
+            .FirstOrDefault(b => b.Isbn == isbn);
+
+        var bookAuthorsToDelete = LibraryContext.BookAuthors.Where(ba => ba.BookIsbn == isbn);
+        LibraryContext.BookAuthors.RemoveRange(bookAuthorsToDelete);
+
+        var bookStockToDelete = LibraryContext.BookStocks.Where(bs => bs.BookIsbn == isbn);
+        LibraryContext.BookStocks.RemoveRange(bookStockToDelete);
+
+        if (bookToDelete != null)
+        {
+            LibraryContext.Books.Remove(bookToDelete);
+            LibraryContext.SaveChanges();
+        }
+        else
+        {
+            throw new ArgumentException("Book not found", nameof(isbn));
+        }
+    }
+
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
     {
         UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);

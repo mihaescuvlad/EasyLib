@@ -67,6 +67,33 @@ public class BookController : Controller
     [Authorize(Roles = "librarian")]
     public IActionResult Delete([FromQuery] string isbn)
     {
-        return View();
+        if (string.IsNullOrEmpty(isbn))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var book = _bookService.GetBook(isbn);
+
+        if (book == null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return View("Delete", book);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "librarian")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(string isbn)
+    {
+        if (string.IsNullOrEmpty(isbn))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        _bookService.DeleteBook(isbn);
+
+        return RedirectToAction("Index", "Home");
     }
 }

@@ -1,4 +1,6 @@
-﻿using Application.Pocos;
+﻿using Application.Data;
+using Application.Pocos;
+using Application.Repositories;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
 
@@ -67,6 +69,20 @@ public class BookService : IBookService
     public EditBookPoco? GetEditBookBookData(string isbn)
     {
         return _repositoryWrapper.BookRepository.GetEditBookBookData(isbn);
+    }
+
+    public void DeleteBook(string isbn)
+    {
+        var bookToDelete = GetBook(isbn);
+
+        if (bookToDelete != null)
+        {
+            _repositoryWrapper.BookRepository.DeleteBook(isbn);
+        }
+        else
+        {
+            throw new Exception("Book not found");
+        }
     }
 
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)

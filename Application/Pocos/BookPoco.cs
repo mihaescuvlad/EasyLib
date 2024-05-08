@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Application.Models;
-
-namespace Application.Pocos;
+﻿namespace Application.Pocos;
 
 public class BookPoco
 {

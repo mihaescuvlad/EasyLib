@@ -12,4 +12,8 @@ public interface IBookService
     List<BookPoco> SearchBooks(string query, int pageNumber = 1, int pageSize = 15);
 
     int GetTotalSearchResultsCount(string query);
+
+    EditBookPoco? GetEditBookBookData(string isbn);
+
+    void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
 }

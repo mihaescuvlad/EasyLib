@@ -6,5 +6,9 @@ namespace Application.Repositories.Interfaces;
 public interface IBookRepository : IRepositoryBase<Book>
 {
     IEnumerable<BookPoco> GetBooksWithAuthors();
-    public BookPoco? GetBookWithAuthorsByIsbn(string isbn);
+    BookPoco? GetBookWithAuthorsByIsbn(string isbn);
+
+    EditBookPoco? GetEditBookBookData(string isbn);
+
+    void SubmitEditBookBookData(SubmitEditBookPoco newBookData);
 }

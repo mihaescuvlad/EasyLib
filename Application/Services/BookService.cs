@@ -1,7 +1,10 @@
-﻿using Application.Models;
+﻿using Application.Data;
 using Application.Pocos;
+using Application.Repositories;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
+
+using Newtonsoft.Json;
 
 namespace Application.Services;
 
@@ -68,12 +71,30 @@ public class BookService : IBookService
         return _repositoryWrapper.BookRepository.GetEditBookBookData(isbn);
     }
 
-    public void AddBook(SubmitEditBookPoco? newBookData)
+    public void DeleteBook(string isbn)
     {
-        if (newBookData == null)
+        var bookToDelete = GetBook(isbn);
+
+        if (bookToDelete != null)
         {
-            throw new ArgumentNullException(nameof(newBookData), "Input data cannot be null.");
+            _repositoryWrapper.BookRepository.DeleteBook(isbn);
         }
+        else
+        {
+            throw new Exception("Book not found");
+        }
+    }
+
+    public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
+    {
+        newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Authors list can't be empty.");
+
+        _repositoryWrapper.BookRepository.SubmitEditBookBookData(newBookData);
+    }
+
+    public void AddBook(SubmitEditBookPoco newBookData)
+    {
+        newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Authors list can't be empty.");
 
         _repositoryWrapper.BookRepository.AddBook(newBookData);
     }

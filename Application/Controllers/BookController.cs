@@ -4,6 +4,9 @@ using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+using Newtonsoft.Json;
 
 namespace Application.Controllers;
 
@@ -51,13 +54,47 @@ public class BookController : Controller
     [Authorize(Roles = "librarian")]
     public IActionResult Edit(SubmitEditBookPoco editData)
     {
-        return RedirectToAction("Index", "Home"); // Not implemented
+        if (ModelState.IsValid)
+        {
+            _bookService.SubmitEditBookBookData(editData);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        return RedirectToAction("Index", "Home");
     }
 
     [Authorize(Roles = "librarian")]
     public IActionResult Delete([FromQuery] string isbn)
     {
-        return View();
+        if (string.IsNullOrEmpty(isbn))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var book = _bookService.GetBook(isbn);
+
+        if (book == null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return View("Delete", book);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "librarian")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(string isbn)
+    {
+        if (string.IsNullOrEmpty(isbn))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        _bookService.DeleteBook(isbn);
+
+        return RedirectToAction("Index", "Home");
     }
 
     [Authorize(Roles = "librarian")]
@@ -83,7 +120,7 @@ public class BookController : Controller
             return View(newBookData);
         }
 
-        // _bookService.AddBook(newBookData);
-        return RedirectToAction("Index", "Book");
+        _bookService.AddBook(newBookData);
+        return RedirectToAction("Index", "Book", new { isbn = newBookData.BookData.Isbn });
     }
 }

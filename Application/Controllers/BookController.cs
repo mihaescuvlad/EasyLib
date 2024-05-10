@@ -3,6 +3,7 @@ using Application.Pocos;
 using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,24 +16,33 @@ public class BookController : Controller
 {
     private readonly IBookService _bookService;
     private readonly IAuthorService _authorService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public BookController(IBookService bookService, IAuthorService authorService)
+    public BookController(IBookService bookService, IAuthorService authorService, UserManager<ApplicationUser> userManager)
     {
         _bookService = bookService;
         _authorService = authorService;
+        _userManager = userManager;
     }
 
-    public IActionResult Index([FromQuery] string isbn)
+    public async Task<IActionResult> Index([FromQuery] string isbn)
     {
         var book = _bookService.GetBook(isbn);
 
         if (book == null)
         {
-            RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         ViewBag.Isbn = isbn;
         ViewBag.InStock = _bookService.IsInStock(isbn);
+        ViewBag.IsBlacklisted = user.Blacklisted;
 
         return View(book);
     }

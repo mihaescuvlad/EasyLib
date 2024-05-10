@@ -4,14 +4,13 @@
 }
 @model Application.Pocos.UserPoco
 
-<section class="page-section bg-light">
+<section class="page-section bg-light" style="height: 100vh;">
     <div class="container mt-5">
         <div class="row justify-content-center mb-5 py-3">
             <div class="col-md-8">
                 <div class="card p-3">
                     <div class="card-body text-center d-flex flex-column justify-content-center">
 
-                        <!-- User Name -->
                         <h4 class="card-title pb-3">My Profile</h4>
                         <div class="d-flex flex-column text-start col-9 align-self-center">
                             <div class="d-flex flex-row">
@@ -39,14 +38,12 @@
                                 <p>@Model.Email</p>
                             </div>
                         </div>
-                        
-                        <!-- User Details -->
+
                         @if (@Model.Blacklisted)
                         {
                             <p class="fw-semibold text-danger py-2">You were forbidden from borrowing books!</p>
                         }
 
-                        <!-- Action Buttons -->
                         <div class="d-flex justify-content-center mt-3">
                             <a href="@Url.Action("EditProfile", "User")" class="btn btn-primary btn-lg mx-2">Edit Profile</a>
                             <a href="@Url.Action("Index", "Borrow")" class="btn btn-secondary btn-lg mx-2">View History</a>
@@ -56,10 +53,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </section>
 

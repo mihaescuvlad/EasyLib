@@ -61,16 +61,26 @@
                 <p>Please be aware that non-compliance with these terms may result in loss of borrowing privileges and may incur additional penalties. We appreciate your cooperation in maintaining the integrity of our library's collection and services.</p>
                 <p>Thank you for your understanding and adherence to these guidelines.</p>
             </div>
-            @if (ViewBag.InStock)
+            @if (ViewBag.IsBlacklisted)
             {
-                <a class="btn btn-primary btn-xl text-uppercase" href="@Url.Action("Borrow", "Borrow", new { isbn = ViewBag.Isbn })">
+                
+                <a class="btn btn-primary btn-xl text-uppercase disabled" href="@Url.Action("Index", "Book", new { isbn = ViewBag.Isbn })">
                     Borrow
                     <i class="fas fa-cart-shopping fa-xl"></i>
                 </a>
+                <p class="fw-semibold text-danger py-2">You were forbidden from borrowing books</p>
+            }
+            else if (!ViewBag.InStock)
+            {
+                <a class="btn btn-primary btn-xl text-uppercase disabled" href="@Url.Action("Index", "Book", new { isbn = ViewBag.Isbn })">
+                    Borrow
+                    <i class="fas fa-cart-shopping fa-xl"></i>
+                </a>
+                <p class="fw-semibold text-danger py-2">Book is not in stock</p>
             }
             else
             {
-                <a class="btn btn-primary btn-xl text-uppercase disabled" href="@Url.Action("Index", "Book", new { isbn = ViewBag.Isbn })">
+                <a class="btn btn-primary btn-xl text-uppercase" href="@Url.Action("Borrow", "Borrow", new { isbn = ViewBag.Isbn })">
                     Borrow
                     <i class="fas fa-cart-shopping fa-xl"></i>
                 </a>

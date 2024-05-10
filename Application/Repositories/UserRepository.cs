@@ -40,6 +40,29 @@ public class UserRepository : RepositoryBase<ApplicationUser>, IUserRepository
         return user;
     }
 
+    public IEnumerable<UserPoco> GetUsersWithAddress()
+    {
+        var usersWithAddress = _context.Users
+            .Join(
+                _context.Addresses,
+                user => user.AddressId,
+                address => address.Id,
+                (user, address) => new UserPoco
+                {
+                    Id = new Guid(user.Id),
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PostalCode = user.PostalCode,
+                    Blacklisted = user.Blacklisted,
+                    Email = user.Email,
+                    Address1 = address.Address1,
+                    Address2 = address.Address2,
+                })
+            .ToList();
+
+        return usersWithAddress;
+    }
+
     public void UpdateUserById(UserPoco userPoco)
     {
         var existingUser = _context.Users.FirstOrDefault(u => u.Id == userPoco.Id.ToString());

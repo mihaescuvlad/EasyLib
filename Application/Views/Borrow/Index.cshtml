@@ -1,45 +1,28 @@
-﻿@model Application.Pocos.BorrowHistoryPoco
+﻿@model List<Application.Pocos.HistoryPoco>
 
 @{
-	ViewData["Title"] = "Borrow Book";
+    ViewData["Title"] = "Borrow History";
 }
-<section>
-	<div class="form-center d-flex justify-content-center">
-		<div class="card col-3">
-			<div class="card-body">
-				<form id="borrowForm" method="POST" asp-controller="Borrow" asp-action="BorrowBook">
-					<div class="d-flex flex-column justify-content-center align-items-center mt-3">
-						<div class="form-group">
-							<label for="libraryLocation">Library Location:</label>
-							<select class="form-control" id="libraryLocation" name="LibraryId" asp-for="LibraryId">
-								<option value="">Select Library Location</option>
-								@foreach (var libraryLocation in ViewBag.libraryLocations)
-								{
-									<option value="@libraryLocation.Id">
-										[@libraryLocation.OpenTime.ToString("HH:mm") - @libraryLocation.CloseTime.ToString("HH:mm")]
-										@libraryLocation.Address1 @((libraryLocation.Address2 != null) ? libraryLocation.Address2 : "")
-									</option>
-								}
-							</select>
-						</div>
-						<input type="hidden" id="BookIsbn" name="BookIsbn" value="@ViewBag.Isbn" asp-for="BookIsbn" />
-						<div class="form-floating pb-3">
-							<div class="form-group">
-								<label for="BorrowDate">Borrow Date:</label>
-								<input type="date" id="BorrowDate" name="BorrowDate" asp-for="BorrowDate" class="form-control" required>
-								<span asp-validation-for="BorrowDate" class="text-danger"></span>
-							</div>
-						</div>
-						<div class="form-floating d-flex justify-content-center py-3">
-							<button type="submit" class="btn btn-primary btn-lg">Borrow Book</button>
-						</div>
 
-						<div class="validation-errors">
-							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<section class="page-section bg-light" style="height: 100vh;">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase my-3">borrow history</h2>
+        </div>
+        <div class="d-flex flex-column align-items-center col-7 mt-5 overflow-auto border rounded" style="max-height: 80vh;">
+            @foreach (var history in Model)
+            {
+                <div class="col-12 my-3 px-3">
+                    <div class="card d-flex flex-row">
+                        <div class="card-body overflow-auto">
+                            <p class="card-text text-xl"><b>Library:</b> @history.Address1 @((history.Address2 != null) ? history.Address2 : "")</p>
+                            <p class="card-text text-xl"><b>Borrow Time:</b> @history.BorrowDate.ToString("yyyy MMMM dd")</p>
+                            <p class="card-text text-xl"><b>Book Isbn:</b> @history.BookIsbn</p>
+                            <p class="card-text text-xl"><b>Book Title:</b> @history.BookTitle</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </section>

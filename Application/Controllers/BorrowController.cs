@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using Application.Pocos;
+using Application.Services;
 using Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,33 @@ public class BorrowController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index([FromQuery] string isbn)
+    public IActionResult Index([FromQuery] Guid userId)
+    {
+        Guid id = Guid.Empty;
+
+        if (userId == Guid.Empty)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (currentUserId == null)
+            {
+                return RedirectToAction("Profile", "User");
+            }
+
+            id = Guid.Parse(currentUserId);
+        }
+        else if (User.IsInRole("librarian"))
+        {
+            id = userId;
+        }
+
+        var userHistory = _borrowHistoryService.GetHistoryForUser(id).ToList();
+
+        return View(userHistory);
+    }
+
+    [HttpGet]
+    public IActionResult Borrow([FromQuery] string isbn)
     {
         var libraryLocations = _libraryLocationService.GetLibraryLocationsWithAddress(isbn);
 

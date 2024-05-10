@@ -16,6 +16,37 @@ public class BorrowHistoryRepository : RepositoryBase<BorrowHistory>, IBorrowHis
     {
     }
 
+    public IEnumerable<HistoryPoco> GetHistoryForUser(Guid userId)
+    {
+        var history = LibraryContext.BorrowHistory
+            .Where(bh => bh.UserId == userId)
+            .Join(
+                LibraryContext.LibraryLocations,
+                bh => bh.LibraryId,
+                ll => ll.Id,
+                (bh, ll) => new { BorrowHistory = bh, LibraryLocation = ll })
+            .Join(
+                LibraryContext.Addresses,
+                combined => combined.LibraryLocation.AddressId,
+                a => a.Id,
+                (combined, a) => new { combined.BorrowHistory, combined.LibraryLocation, Address = a })
+            .Join(
+                LibraryContext.Books,
+                combined => combined.BorrowHistory.BookIsbn,
+                b => b.Isbn,
+                (combined, b) => new HistoryPoco
+                {
+                    BookIsbn = combined.BorrowHistory.BookIsbn,
+                    BookTitle = b.Title,
+                    Address1 = combined.Address.Address1,
+                    Address2 = combined.Address.Address2,
+                    BorrowDate = combined.BorrowHistory.BorrowDate,
+                })
+            .OrderByDescending(h => h.BorrowDate);
+
+        return history;
+    }
+
     public void BorrowBook(BorrowHistoryPoco borrowHistory)
     {
         var libraryLocation = LibraryContext.LibraryLocations

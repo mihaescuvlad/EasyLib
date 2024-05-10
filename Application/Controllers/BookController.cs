@@ -32,6 +32,7 @@ public class BookController : Controller
         }
 
         ViewBag.Isbn = isbn;
+        ViewBag.InStock = _bookService.IsInStock(isbn);
 
         return View(book);
     }
@@ -58,7 +59,7 @@ public class BookController : Controller
         {
             _bookService.SubmitEditBookBookData(editData);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Book", new { isbn = editData.BookData.Isbn });
         }
 
         return RedirectToAction("Index", "Home");

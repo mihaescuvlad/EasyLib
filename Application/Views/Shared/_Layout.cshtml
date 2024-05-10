@@ -40,6 +40,10 @@
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <li class="nav-item"><a class="nav-link" href="/?page=1">Books</a></li>
+                        @if (User.IsInRole("librarian"))
+                        {
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "User", new { page = 1 })">Users</a></li>
+                        }
                         <li class="nav-item dropdown px-3">
                             <div class="d-flex flex-row justify-content-center align-items-center">
                                 <i class="fas fa-xl fa-user fa-inverse"></i>

@@ -3,6 +3,8 @@ using Application.Models;
 using Application.Pocos;
 using Application.Repositories.Interfaces;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Application.Repositories;
 
 public class BookRepository : RepositoryBase<Book>, IBookRepository
@@ -66,6 +68,11 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         };
 
         return bookPoco;
+    }
+
+    public bool IsInStock(string isbn)
+    {
+        return LibraryContext.BookStocks.Any(bs => bs.BookIsbn == isbn && bs.Stock > 0);
     }
 
     public EditBookPoco? GetEditBookBookData(string isbn)

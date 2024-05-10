@@ -36,6 +36,11 @@ public class BookService : IBookService
         return _repositoryWrapper.BookRepository.GetBookWithAuthorsByIsbn(isbn);
     }
 
+    public bool IsInStock(string isbn)
+    {
+        return _repositoryWrapper.BookRepository.IsInStock(isbn);
+    }
+
     public List<BookPoco> SearchBooks(string query, int pageNumber = 1, int pageSize = 15)
     {
         var itemsToSkip = (pageNumber - 1) * pageSize;

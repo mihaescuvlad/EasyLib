@@ -1,0 +1,72 @@
+﻿@model List<Application.Pocos.UserPoco>
+
+@{
+    ViewData["Title"] = "Users Page";
+}
+
+<section class="page-section bg-light" style="height: 100vh;">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase my-3">users</h2>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 my-3 pb-3">
+            @foreach (var user in Model)
+            {
+                <div class="col">
+                    <div class="card d-flex flex-row">
+                        <div class="card-body overflow-auto">
+                            <p class="card-text text-xl"><b>First Name:</b> @user.FirstName</p>
+                            <p class="card-text text-xl"><b>Last Name:</b> @user.LastName</p>
+                            <p class="card-text text-xl"><b>Email:</b> @user.Email</p>
+                            <p class="card-text text-xl"><b>Blacklisted:</b>
+                                @if (user.Blacklisted)
+                                {
+                                    <i class="fa-solid fa-check ms-2"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-xmark ms-2"></i>
+                                }
+                            </p>
+                        </div>
+                        <div class="d-flex flex-column m-3">
+                            <a class="btn btn-primary btn-l text-uppercase px-2 mb-2" href="@Url.Action("EditProfile", "User", new { userId = user.Id })">
+                                Edit
+                                <i class="fas fa-pen-to-square fa-lg px-1"></i>
+                            </a>
+                            <a class="btn btn-secondary btn-l text-uppercase px-2 mb-2" href="@Url.Action("Index", "Borrow", new { userId = user.Id })">
+                                History
+                                <i class="fa-solid fa-clock-rotate-left fa-lg px-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="d-flex mt-3">
+            <div class="col-md">
+                @if (ViewBag.HasPreviousPage)
+                {
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber - 1)@(ViewBag.SearchQuery != null ? "&search=" + ViewBag.SearchQuery : "")">
+                        <i class="fas fa-caret-left fa-xl"></i>
+                        Previous Page
+                    </a>
+                }
+            </div>
+            <div class="bg-primary btn-xl text-uppercase text-white rounded px-3">
+                Page @(ViewBag.PageNumber)
+            </div>
+            <div class="col-md d-flex justify-content-end">
+                @if (ViewBag.HasNextPage)
+                {
+                    <a class="btn btn-primary btn-xl text-uppercase" href="?page=@(ViewBag.PageNumber + 1)@(ViewBag.SearchQuery != null ? "&search=" + ViewBag.SearchQuery : "")">
+                        Next Page
+                        <i class="fas fa-caret-right fa-xl"></i>
+                    </a>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using Application.Pocos;
+﻿using Application.Pocos;
 using Application.Repositories.Interfaces;
 using Application.Services.Interfaces;
 
@@ -12,6 +11,11 @@ public class BorrowHistoryService : IBorrowHistoryService
     public BorrowHistoryService(IRepositoryWrapper repositoryWrapper)
     {
         _repositoryWrapper = repositoryWrapper;
+    }
+
+    public IEnumerable<HistoryPoco> GetHistoryForUser(Guid userId)
+    {
+        return _repositoryWrapper.BorrowHistoryRepository.GetHistoryForUser(userId);
     }
 
     public void BorrowBook(BorrowHistoryPoco borrowHistory)

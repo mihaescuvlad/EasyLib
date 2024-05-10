@@ -5,5 +5,6 @@ namespace Application.Services.Interfaces;
 
 public interface IBorrowHistoryService
 {
+    IEnumerable<HistoryPoco> GetHistoryForUser(Guid userId);
     void BorrowBook(BorrowHistoryPoco borrowHistory);
 }

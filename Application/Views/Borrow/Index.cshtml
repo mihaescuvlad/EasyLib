@@ -1,0 +1,28 @@
+﻿@model List<Application.Pocos.HistoryPoco>
+
+@{
+    ViewData["Title"] = "Borrow History";
+}
+
+<section class="page-section bg-light" style="height: 100vh;">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase my-3">borrow history</h2>
+        </div>
+        <div class="d-flex flex-column align-items-center col-7 mt-5 overflow-auto border rounded" style="max-height: 80vh;">
+            @foreach (var history in Model)
+            {
+                <div class="col-12 my-3 px-3">
+                    <div class="card d-flex flex-row">
+                        <div class="card-body overflow-auto">
+                            <p class="card-text text-xl"><b>Library:</b> @history.Address1 @((history.Address2 != null) ? history.Address2 : "")</p>
+                            <p class="card-text text-xl"><b>Borrow Time:</b> @history.BorrowDate.ToString("yyyy MMMM dd")</p>
+                            <p class="card-text text-xl"><b>Book Isbn:</b> @history.BookIsbn</p>
+                            <p class="card-text text-xl"><b>Book Title:</b> @history.BookTitle</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

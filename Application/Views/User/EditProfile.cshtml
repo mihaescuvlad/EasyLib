@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Edit Profile";
+}
+@model Application.Pocos.UserPoco;
+
+<section class="page-section bg-light" style="height: 100vh;">
+    <div class="container mt-5">
+        <div class="row justify-content-center mb-5 py-3">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h4 class="card-title pb-3">Edit Profile</h4>
+
+                        <div class="d-flex flex-column text-start align-self-center col-12">
+                            <form class="form-center" id="editForm" method="POST" asp-controller="User" asp-action="UpdateProfile">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                                <input type="hidden" asp-for="Email" value="@Model.Email" />
+
+                                <div class="d-flex flex-row mb-3">
+                                    <div class ="form-floating col-6 pe-2">
+                                        <input id="first-name" class="form-control" asp-for="FirstName" value="@Model.FirstName" placeholder="First Name"/>
+                                        <label for="first-name">First Name</label>
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class ="form-floating col-6">
+                                        <input id="last-name" class="form-control" asp-for="LastName" value="@Model.LastName" placeholder="Last Name"/>
+                                        <label for="last-name">Last Name</label>
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating d-flex flex-row mb-3">
+                                        <input id="postal-code" class="form-control" asp-for="PostalCode" value="@Model.PostalCode" placeholder="Postal Code" />
+                                        <label for="postal-code">Postal Code</label>
+                                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-floating d-flex flex-row mb-3">
+                                        <input id="address1" class="form-control" asp-for="Address1" value="@Model.Address1" placeholder="Address Line 1" />
+                                        <label for="address1">Address Line 1</label>
+                                        <span asp-validation-for="Address1" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-floating d-flex flex-row mb-3">
+                                        <input id="address2" class="form-control" asp-for="Address2" value="@Model.Address2" placeholder="Address Line 2 (optional)" />
+                                        <label for="address2">Address Line 2 (optional)</label>
+                                </div>
+                                
+                                <div class="d-flex flex-row mb-3">
+                                    @if (User.IsInRole("librarian"))
+                                    {
+                                        <div class ="form-floating col-6 pe-2">
+                                            <input id="email" class="form-control" value="@Model.Email" disabled placeholder="@Model.Email"/>
+                                            <label for="email">Email address</label>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-center align-items-center col-6">
+                                            <label class="form-check-label fs-5 pe-4" for="blacklisted">Blacklisted</label>
+                                            <input class="form-check-input p-3" type="checkbox" id="blacklisted" asp-for="Blacklisted" checked="@Model.Blacklisted"/>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-floating col-12">
+                                            <input id="email" class="form-control" value="@Model.Email" disabled placeholder="@Model.Email" />
+                                            <label for="email">Email address</label>
+                                        </div>
+                                    }
+                                </div>
+                                
+                                
+
+                                <div class="form-floating d-flex justify-content-center py-3">
+                                    <button type="reset" class="btn btn-danger btn-lg me-3">Discard Changes</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

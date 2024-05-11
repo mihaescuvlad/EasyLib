@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Register";
+    Layout = "_AuthLayout";
+}
+@model Application.Pocos.RegisterPoco
+
+<p class="auth-card-description">Create an Account</p>
+<div class="form-center">
+    <form id="registerForm" method="POST" asp-controller="Account" asp-action="Register">
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row mb-3">
+                <div class="form-floating">
+                    <input id="first-name" class="form-control" asp-for="FirstName" placeholder="First Name" />
+                    <label for="first-name">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input if="last-name" class="form-control" asp-for="LastName" placeholder="Last Name" />
+                    <label for="last-name">Last Name</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-flex flex-row mb-3">
+                <div class="form-floating">
+                    <input if="email" class="form-control" asp-for="Email" placeholder="Email" />
+                    <label for="email">Email address</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input id="postal-code" class="form-control" asp-for="PostalCode" placeholder="Postal Code" />
+                    <label for="postal-code">Postal Code</label>
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="form-floating mb-3">
+                <input id="address1" class="form-control" asp-for="Address1" placeholder="Address Line 1" />
+                <label for="address1">Address Line 1</label>
+                <span asp-validation-for="Address1" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input id="address2" class="form-control" asp-for="Address2" placeholder="Address Line 2 (optional)" />
+                <label for="address2">Address Line 2 (optional)</label>
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="form-floating">
+                <input id="password" class="form-control" asp-for="Password" placeholder="Password" />
+                <label for="password">Password</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input id="confirm-password" class="form-control" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+                <label for="confirm-password">Confirm Password</label>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="button-center">
+            <button type="submit" id="register-button" class="btn btn-block register-btn mb-4 text-white">Register</button>
+        </div>
+    </form>
+</div>
+<p class="auth-card-footer-text">Already have an account? <a href="Login" class="text-reset">Login here</a></p>
+<nav class="auth-card-footer-nav pb-4">
+    <a href="#!">Terms of use.</a>
+    <a href="#!">Privacy policy</a>
+</nav>

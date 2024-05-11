@@ -3,7 +3,7 @@
 
   
 [![GitHub contributors](https://img.shields.io/github/contributors/mihaescuvlad/EasyLib)](https://GitHub.com/mihaescuvlad/EasyLib/graphs/contributors/)
-[![codecov](https://codecov.io/gh/mihaescuvlad/EasyLib/branch/main/graph/badge.svg?token=OGUD3GJZFV))](https://codecov.io/gh/mihaescuvlad/EasyLib)
+[![codecov](https://codecov.io/gh/mihaescuvlad/EasyLib/branch/main/graph/badge.svg?token=OGUD3GJZFV)](https://codecov.io/gh/mihaescuvlad/EasyLib)
 [![CodeQL](https://github.com/mihaescuvlad/EasyLib/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mihaescuvlad/EasyLib/actions/workflows/codeql-analysis.yml)
 [![GitHub license](https://img.shields.io/github/license/mihaescuvlad/EasyLib)](https://github.com/mihaescuvlad/EasyLib/blob/main/LICENSE)
 

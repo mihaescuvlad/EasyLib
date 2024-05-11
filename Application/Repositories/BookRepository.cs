@@ -216,22 +216,22 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
 
     public void SubmitEditBookBookData(SubmitEditBookPoco newBookData)
     {
-        UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);
-        UpdateBookStocks(newBookData.BookData.Isbn, newBookData.LibraryStocks);
-
         var existingBook = LibraryContext.Books.FirstOrDefault(b => b.Isbn == newBookData.BookData.Isbn);
 
         if (existingBook != null)
         {
             existingBook.Title = newBookData.BookData.Title;
             existingBook.Description = newBookData.BookData.Description;
-
-            LibraryContext.SaveChanges();
         }
         else
         {
             throw new InvalidOperationException("Book not found.");
         }
+
+        UpdateBookAuthors(newBookData.BookData.Isbn, newBookData.BookData.Authors);
+        UpdateBookStocks(newBookData.BookData.Isbn, newBookData.LibraryStocks);
+
+        LibraryContext.SaveChanges();
     }
 
     private void UpdateBookStocks(string isbn, Dictionary<string, int> stockDictionary)

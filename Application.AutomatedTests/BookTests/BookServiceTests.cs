@@ -159,4 +159,69 @@ public class BookServiceTests
 
         _bookService.SubmitEditBookBookData(bookData);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException), "Failed to parse book details.")]
+    public void AddBook_InvalidJson_ThrowsException()
+    {
+        var bookData = new SubmitEditBookPoco
+        {
+            BookData = new BookPoco
+            {
+                Isbn = "9780321635372",
+                Title = "Elements of Programming",
+                Authors = new[] { "Paul McJones", "Alexander A. Stepanov" },
+                Description =
+                    "A truly foundational book on the discipline of generic programming reveals how to write better software by mastering the development of abstract components. The authors show programmers how to use mathematics to compose reliable algorithms from components, and to design effective interfaces between algorithms and data structures.",
+            },
+            LibraryStocks = new Dictionary<string, int> { { "1183c44f-12d1-4c31-ab96-ea2179ab755e", 5 } },
+        };
+
+        _bookService.AddBook(bookData);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException), "A book with ISBN 9780131103627 already exists.")]
+    public void AddBook_ExistingISBN_ThrowsException()
+    {
+        var existingBookData = new SubmitEditBookPoco
+        {
+            BookData = new BookPoco
+            {
+                Isbn = "9780131103627",
+                Title = "Clean Code: A Handbook of Agile Software Craftsmanship",
+                Authors = new[] { "[\"Robert C. Martin\"]" },
+                Description = "This book is a must-read for all software developers.",
+            },
+            LibraryStocks = new Dictionary<string, int> { { "1183c44f-12d1-4c31-ab96-ea2179ab755e", 10 } },
+        };
+
+        _mockRepo.Setup(x => x.BookRepository.AddBook(existingBookData))
+                 .Throws(new InvalidOperationException($"A book with ISBN {existingBookData.BookData.Isbn} already exists."));
+
+        _bookService.AddBook(existingBookData);
+    }
+
+    [TestMethod]
+    public void AddBook_BookDoesNotExist_AddsNewBook()
+    {
+        var newBookData = new SubmitEditBookPoco
+        {
+            BookData = new BookPoco
+            {
+                Isbn = "0787305820",
+                Title = "The Inventions, Researches and Writings of Nikola Tesla",
+                Authors = new[] { "[\"Thomas Commerford Martin\"]" },
+                Description = "1894 with special reference to his work in polyphase currents and high potential lighting. Contents: Ployphase Currents; Biographical & Introductory; a New System of Alternating Current Motors & Transformers; Tesla Rotating Magnetic Field; Modifica.",
+            },
+            LibraryStocks = new Dictionary<string, int> { { "1183c44f-12d1-4c31-ab96-ea2179ab755e", 5 } },
+        };
+
+        _mockRepo.Setup(x => x.BookRepository.GetBookWithAuthorsByIsbn(newBookData.BookData.Isbn))
+         .Returns(default(BookPoco));
+
+        _bookService.AddBook(newBookData);
+
+        _mockRepo.Verify(x => x.BookRepository.AddBook(It.Is<SubmitEditBookPoco>(b => b.BookData.Isbn == newBookData.BookData.Isbn)), Times.Once);
+    }
 }

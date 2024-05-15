@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 # Development configs
 Application/appsettings.Development.json
 Prototypes/venv
+
+# Cobertura Test
+Application.AutomatedTests/TestResults/

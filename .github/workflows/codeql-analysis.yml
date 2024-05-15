@@ -47,7 +47,7 @@ jobs:
       run: dotnet build Application -c Release --no-restore
 
     - name: Test and collect coverage
-      run: dotnet test Application --no-build --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/Coverage/'
+      run: dotnet test Application /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/Coverage/'
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.0.1

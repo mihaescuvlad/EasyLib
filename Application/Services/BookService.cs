@@ -106,7 +106,14 @@ public class BookService : IBookService
 
     public void AddBook(SubmitEditBookPoco newBookData)
     {
-        newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors[0]) ?? throw new InvalidOperationException("Failed to parse book details.");
+        try
+        {
+            newBookData.BookData.Authors = JsonConvert.DeserializeObject<string[]>(newBookData.BookData.Authors.First()) ?? throw new InvalidOperationException("Failed to parse book details.");
+        }
+        catch (JsonReaderException ex)
+        {
+            throw new InvalidOperationException("Failed to parse book details.", ex);
+        }
 
         _repositoryWrapper.BookRepository.AddBook(newBookData);
     }

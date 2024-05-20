@@ -224,4 +224,16 @@ public class BookServiceTests
 
         _mockRepo.Verify(x => x.BookRepository.AddBook(It.Is<SubmitEditBookPoco>(b => b.BookData.Isbn == newBookData.BookData.Isbn)), Times.Once);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Book not found")]
+    public void DeleteBook_BookDoesNotExist_ThrowsException()
+    {
+        var isbn = "7777777777";
+        _mockRepo.Setup(x => x.BookRepository.GetBookWithAuthorsByIsbn(isbn)).Returns(default(BookPoco));
+
+        _bookService.DeleteBook(isbn);
+
+        _mockRepo.Verify(x => x.BookRepository.DeleteBook(It.IsAny<string>()), Times.Never);
+    }
 }
